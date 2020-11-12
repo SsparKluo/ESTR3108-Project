@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 import os
+from data_io import read_data_file
 
 def padding_seq(seq, max_len = 501, default_char = 'N'):
     cur_len = len(seq)
@@ -36,9 +37,9 @@ def split_seq(seq, overlap = 20, window_size = 101):
     splitted_seqs.append(remain_seq)
     return splitted_seqs
 
-def seq2matrix(seq, motif_len = 4):
+def seq2array(seq, motif_len = 4):
     seq = seq.replace('U', 'T')
-    alpha = 'ACGT'
+    a = 'ACGT'
     #for seq in seqs:
     #for key, seq in seqs.iteritems():
     row = (len(seq) + 2*motif_len - 2)
@@ -58,13 +59,43 @@ def seq2matrix(seq, motif_len = 4):
         #if val == 'N' or i < motif_len or i > len(seq) - motif_len:
         #    new_array[i] = np.array([0.25]*4)
         #else:
-        index = alpha.index(val)
+        index = a.index(val)
         new_array[i][index] = 1
 
         #data[key] = new_array
     return new_array
 
+def get_bag_data_1_channel(data, max_len = 501):
+    bags = []
+    seqs = data["seq"]
+    labels = data["Y"]
+    for seq in seqs:
+        #pdb.set_trace()
+        #bag_seqs = split_overlap_seq(seq)
+        bag_seq = padding_seq(seq, max_len = max_len)
+        #flat_array = []
+        bag_subt = []
+        #for bag_seq in bag_seqs:
+        tri_fea = seq2array(bag_seq)
+        bag_subt.append(tri_fea.T)
 
+        bags.append(np.array(bag_subt))
+    
+        
+    return bags, labels
+
+def get_bag_data():
+    pass
+
+def get_data(posi, nega = None, channel = 7,  window_size = 101, train = True):
+    data = read_data_file(posi, nega, train = train)
+    if channel == 1:
+        train_bags, label = get_bag_data_1_channel(data, max_len = window_size)
+
+    else:
+        train_bags, label = get_bag_data(data, channel = channel, window_size = window_size)
+    
+    return train_bags, label
 
 if __name__ == "__main__":
     pass
