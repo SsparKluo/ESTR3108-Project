@@ -7,14 +7,14 @@ import sys
 import random
 
 max_len = 376
-filter_no = 10
+filter_no = 30
 
 seq, label = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.ls.positives.fa", nega = "data\\ALKBH5_Baltz2012.ls.negatives.fa", channel = 1, window_size = max_len)
 
 sess = tf.InteractiveSession()
 
 x = tf.placeholder(tf.float32, shape = [None, max_len, 4])
-y = tf.placeholder(tf.float32, shape = [None])
+y = tf.placeholder(tf.float32, shape = [None, 2])
 
 def wv(shape):
 	init = tf.truncated_normal(shape, stddev = 0.1)
@@ -25,7 +25,7 @@ def bv(shape):
 	return tf.Variable(init)
 
 def conv2d(x, W):
-	return tf.nn.conv2d(x, W, strides = [1, 1, 1, 1], padding = 'VALID')
+	return tf.nn.conv2d(x, W, strides = [1, 1, 1, 1], padding = 'SAME')
 
 W_conv1 = wv([8, 4, 1, filter_no])
 b_conv1 = bv([filter_no])
@@ -47,41 +47,69 @@ h_pool3 = tf.reduce_max(h_conv3, [1, 2])
 
 h_pool_concat = tf.concat([tf.reshape(h_pool1, [-1, filter_no]), tf.reshape(h_pool2, [-1, filter_no]), tf.reshape(h_pool3, [-1, filter_no])], 1)
 
+
+W_fc1 = wv([filter_no * 3, filter_no])
+b_fc1 = bv([filter_no])
+h_fc1 = tf.nn.relu(tf.matmul(h_pool_concat, W_fc1) + b_fc1)
+
 keep_prob = tf.placeholder(tf.float32)
-h_drop = tf.nn.dropout(h_pool_concat, keep_prob)
+h_drop = tf.nn.dropout(h_fc1, keep_prob)
 
-W_fc = wv([filter_no * 3, 1])
-b_fc = bv([1])
+W_fc2 = wv([filter_no, 2])
+b_fc2 = bv([2])
 
-y_conv_high = tf.matmul(h_pool_concat, W_fc) + b_fc
-y_conv = tf.reduce_max(y_conv_high, [1])
+y_conv = tf.matmul(h_drop, W_fc2) + b_fc2
 
 cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(labels = y, logits = y_conv))
 
 train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
 
 
-correct_prediction = tf.equal(tf.cast(tf.round(y_conv), tf.int32), tf.cast(tf.round(y), tf.int32))
+correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 sess.run(tf.global_variables_initializer())
 
-No = []
 
-for i in range(200):
-	No.append(i)
-
-for i in range(120):
+for i in range(500):
+	No = []
+	for j in range (216):
+		No.append(j)
 	random.shuffle(No)
+	# print(No)
 	batch_seq = []
 	batch_label = []
 	for j in range(50):
 		batch_seq.append(seq[No[j]])
-		batch_label.append(label[No[j]])
+		if (label[No[j]]):
+			batch_label.append([0, 1])
+		else:
+			batch_label.append([1, 0])
 	# print(np.array(batch_seq).shape)
 	# print(np.array(batch_label).shape)
 	# print(batch_label)
 	train_accuracy = accuracy.eval(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 1.0})
+	y_out = y_conv.eval(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 1.0})
+	# h_pool1_out = h_pool1.eval(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 1.0})
+	# h_p_c = h_pool_concat.eval(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 1.0})
+	# print(y_out)
+	# print(h_pool1_out)
+	# print(h_p_c)
 	print("step %d, training accuracy %g" % (i, train_accuracy))
 	train_step.run(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 0.5})
 
-print("test accuracy %g" % accuracy.eval(feed_dict = {x: seq, y: label, keep_prob: 1.0}))
+print(np.array(seq).shape)
+
+oh_label = []
+for i, one_label in enumerate(label):
+	if (one_label):
+		oh_label.append([0, 1])
+	else:
+		oh_label.append([1, 0])
+
+y_out_final = y_conv.eval(feed_dict = {x: seq, y: oh_label, keep_prob: 1.0})
+correct_prediction_out = correct_prediction.eval(feed_dict = {x: seq, y: oh_label, keep_prob: 1.0})
+# print(label)
+# print(oh_label)
+# print(y_out_final)
+# print(correct_prediction_out)
+print("test accuracy %g" % accuracy.eval(feed_dict = {x: seq, y: oh_label, keep_prob: 1.0}))
