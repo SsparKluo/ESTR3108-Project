@@ -90,7 +90,7 @@ def get_bag_data():
 def get_data(posi, nega = None, channel = 7,  window_size = 101, train = True):
     data = read_data_file(posi, nega, train = train)
     if channel == 1:
-        train_bags, label = get_bag_data_1_channel(data, max_len = window_size)
+        train_bags, label = get_bag_data_1_channel(data, max_len = data["max_len"])
 
     else:
         train_bags, label = get_bag_data(data, channel = channel, window_size = window_size)
