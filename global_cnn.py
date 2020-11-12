@@ -7,7 +7,7 @@ import sys
 import random
 
 max_len = 376
-filter_no = 16
+filter_no = 10
 
 seq, label = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.ls.positives.fa", nega = "data\\ALKBH5_Baltz2012.ls.negatives.fa", channel = 1, window_size = max_len)
 
@@ -70,7 +70,7 @@ No = []
 for i in range(200):
 	No.append(i)
 
-for i in range(10000):
+for i in range(100):
 	random.shuffle(No)
 	batch_seq = []
 	batch_label = []
