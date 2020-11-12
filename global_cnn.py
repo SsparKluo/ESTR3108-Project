@@ -70,7 +70,7 @@ No = []
 for i in range(200):
 	No.append(i)
 
-for i in range(100):
+for i in range(120):
 	random.shuffle(No)
 	batch_seq = []
 	batch_label = []
