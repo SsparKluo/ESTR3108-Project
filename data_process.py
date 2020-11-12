@@ -77,7 +77,7 @@ def get_bag_data_1_channel(data, max_len = 501):
         bag_subt = []
         #for bag_seq in bag_seqs:
         tri_fea = seq2array(bag_seq)
-        bag_subt.append(tri_fea.T)
+        bag_subt = tri_fea
 
         bags.append(np.array(bag_subt))
     
@@ -88,7 +88,7 @@ def get_bag_data():
     pass
 
 def get_data(posi, nega = None, channel = 7,  window_size = 101, train = True):
-    data = read_data_file(posi, nega, train = train)
+    data = read_data_file(posi, nega)
     if channel == 1:
         train_bags, label = get_bag_data_1_channel(data, max_len = data["max_len"])
 

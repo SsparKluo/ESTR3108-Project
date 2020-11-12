@@ -26,7 +26,7 @@ def read_data_file(posi_file, nega_file = None):
     data = dict()
     seqs, labels, max_len = read_seq_graphprot(posi_file, label = 1)
     if nega_file:
-        seqs2, labels2 = read_seq_graphprot(nega_file, label = 0)
+        seqs2, labels2, max_len = read_seq_graphprot(nega_file, label = 0)
         seqs = seqs + seqs2
         labels = labels + labels2
         
