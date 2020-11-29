@@ -1,6 +1,8 @@
 import numpy as np
 import sys
 import os
+
+from numpy.core.defchararray import splitlines
 from data_io import read_data_file
 
 def padding_seq(seq, max_len = 501, default_char = 'N'):
@@ -85,8 +87,30 @@ def get_bag_data_1_channel(data, max_len = 0):
         bags.append(np.array(bag_subt))
     return bags, labels, max_len
 
-def get_bag_data():
-    pass
+def get_bag_data(data, channel = 7, window_size = 101):
+    bags = []
+    seqs = data["seq"]
+    labels = data["Y"]
+    for seq in seqs:
+        bag_seqs = split_seq(seq, window_size = window_size)
+        bag_subt = []
+        for bag_seq in bag_seqs:
+            tri_fea = seq2array(bag_seq)
+            bag_subt.append(tri_fea.T)
+        num_of_ins = len(bag_subt)
+        
+        if num_of_ins >channel:
+            start = (num_of_ins - channel)/2
+            bag_subt = bag_subt[start: start + channel]
+        if len(bag_subt) <channel:
+            rand_more = channel - len(bag_subt)
+            for i in range(rand_more):
+                tri_fea = seq2array('N' * window_size)
+                bag_subt.append(tri_fea.T)
+        
+        bags.append(np.array(bag_subt))
+
+    return bags, labels
 
 def get_data(posi, nega = None, channel = 7,  window_size = 101, train = True, max_len = 0):
     data = read_data_file(posi, nega)
