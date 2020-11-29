@@ -65,37 +65,42 @@ def seq2array(seq, motif_len = 4):
         #data[key] = new_array
     return new_array
 
-def get_bag_data_1_channel(data, max_len = 501):
+def get_bag_data_1_channel(data, max_len = 0):
     bags = []
     seqs = data["seq"]
     labels = data["Y"]
+    if max_len != 0:
+        max_len_ = max_len
+    else:
+        max_len_ = data["max_len"]
     for seq in seqs:
         #pdb.set_trace()
         #bag_seqs = split_overlap_seq(seq)
-        bag_seq = padding_seq(seq, max_len = max_len)
+        bag_seq = padding_seq(seq, max_len = max_len_)
         #flat_array = []
         bag_subt = []
         #for bag_seq in bag_seqs:
         tri_fea = seq2array(bag_seq)
         bag_subt = tri_fea
-
         bags.append(np.array(bag_subt))
-    
-        
-    return bags, labels
+    return bags, labels, max_len
 
 def get_bag_data():
     pass
 
-def get_data(posi, nega = None, channel = 7,  window_size = 101, train = True):
+def get_data(posi, nega = None, channel = 7,  window_size = 101, train = True, max_len = 0):
     data = read_data_file(posi, nega)
-    if channel == 1:
-        train_bags, label = get_bag_data_1_channel(data, max_len = data["max_len"])
-
+    if max_len == 0:
+        max_len_ = data["max_len"]
     else:
-        train_bags, label = get_bag_data(data, channel = channel, window_size = window_size)
+        max_len_ = max_len
+    print("max_len = ", max_len_)
+    if channel == 1:
+        train_bags, label, max_len = get_bag_data_1_channel(data, max_len = max_len_)
+    else:
+        train_bags, label, max_len = get_bag_data(data, channel = channel, window_size = window_size)
     
-    return train_bags, label
+    return train_bags, label, max_len
 
 if __name__ == "__main__":
     pass
