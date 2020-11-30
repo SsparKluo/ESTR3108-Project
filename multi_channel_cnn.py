@@ -116,7 +116,7 @@ for i in range(1500):
 		# print(h_p_c)
 		print("step %d, training accuracy %g" % (i, train_accuracy))
 		print("test accuracy %g" % accuracy.eval(feed_dict = {x: test_X, y: test_y, keep_prob: 1.0}))
-	train_step.run(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 0.6})
+	train_step.run(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 0.75})
 
 print(np.array(train_X).shape)
 

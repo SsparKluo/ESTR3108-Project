@@ -21,7 +21,7 @@ def next_batch(size, X, y):
     np.random.shuffle(index_pos)
     np.random.shuffle(index_neg)
 
-    index = index_neg[:int(size * 0.6)] + index_pos[:int(size * 0.4)]
+    index = index_neg[:int(size * 0.45)] + index_pos[:int(size * 0.55)]
     np.random.shuffle(index)
 
     batch_X = np.array([X[i] for i in index])
@@ -44,15 +44,15 @@ def max_pool_2x2(x):
     return tf.nn.max_pool(x, ksize = [1, 1, 3, 1], strides = [1, 1, 1, 1], padding = 'SAME')
 
 
-train_X, train_y, max_len0 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.train.positives.fa", nega = "data\\ALKBH5_Baltz2012.train.negatives.fa", channel = 1 )
-test_X, test_y, max_len1 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.ls.positives.fa", nega = "data\\ALKBH5_Baltz2012.ls.negatives.fa", channel = 1)
+train_X, train_y, max_len0 = data_process.get_data(posi = "data\\C22ORF28_Baltz2012.train.positives.fa", nega = "data\\C22ORF28_Baltz2012.train.negatives.fa", channel = 1 )
+test_X, test_y, max_len1 = data_process.get_data(posi = "data\\C22ORF28_Baltz2012.ls.positives.fa", nega = "data\\C22ORF28_Baltz2012.ls.negatives.fa", channel = 1)
 
 if max_len0 > max_len1:
 	max_len = max_len0 + 6
-	test_X, test_y, max_len1 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.ls.positives.fa", nega = "data\\ALKBH5_Baltz2012.ls.negatives.fa", channel = 1, max_len = max_len0)
+	test_X, test_y, max_len1 = data_process.get_data(posi = "data\\C22ORF28_Baltz2012.ls.positives.fa", nega = "data\\C22ORF28_Baltz2012.ls.negatives.fa", channel = 1, max_len = max_len0)
 else:
 	max_len = max_len1 + 6
-	train_X, train_y, max_len0 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.train.positives.fa", nega = "data\\ALKBH5_Baltz2012.train.negatives.fa", channel = 1, max_len = max_len1)
+	train_X, train_y, max_len0 = data_process.get_data(posi = "data\\C22ORF28_Baltz2012.train.positives.fa", nega = "data\\C22ORF28_Baltz2012.train.negatives.fa", channel = 1, max_len = max_len1)
 
 sess = tf.InteractiveSession()
 
@@ -106,7 +106,7 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 sess.run(tf.global_variables_initializer())
 
 
-for i in range(1500):
+for i in range(1200):
 	batch_seq, batch_label = next_batch(256, train_X, train_y)
 	# print(np.array(batch_seq).shape)
 	# print(np.array(batch_label).shape)
@@ -123,6 +123,11 @@ for i in range(1500):
 		print("test accuracy %g" % accuracy.eval(feed_dict = {x: test_X, y: test_y, keep_prob: 1.0}))
 	train_step.run(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 0.75})
 
+saver = tf.train.Saver()
+saver.save(sess, './model/my_model', global_step = 3)
+
+
+"""
 print(np.array(train_X).shape)
 
 oh_label = []
@@ -139,3 +144,4 @@ correct_prediction_out = correct_prediction.eval(feed_dict = {x: train_X, y: oh_
 # print(y_out_final)
 # print(correct_prediction_out)
 print("test accuracy %g" % accuracy.eval(feed_dict = {x: test_X, y: test_y, keep_prob: 1.0}))
+"""
