@@ -14,18 +14,18 @@ def padding_seq(seq, max_len = 501, default_char = 'N'):
         new_seq = seq[:max_len]
     return new_seq
 
-def split_seq(seq, overlap = 20, window_size = 101):
+def split_seq(seq, overlap = 80, window_size = 101):
     seq_len = len(seq)
     splitted_seqs = []
     remain = ""
 
     if seq_len >= window_size:
-        times = (seq_len - window_size) / (window_size - overlap) + 1
+        times = (seq_len - window_size) // (window_size - overlap) + 1
         remain_size = (seq_len - window_size) % (window_size - overlap)
         remain = seq[-remain_size:]
     else:
         times = 0
-        remain = seq_len
+        remain = seq
 
     pointer = overlap #points the last index we had processed, initialied for the first run.
     
@@ -99,10 +99,10 @@ def get_bag_data(data, channel = 7, window_size = 101):
             bag_subt.append(tri_fea.T)
         num_of_ins = len(bag_subt)
         
-        if num_of_ins >channel:
-            start = (num_of_ins - channel)/2
-            bag_subt = bag_subt[start: start + channel]
-        if len(bag_subt) <channel:
+        if num_of_ins >= channel:
+            start = (num_of_ins - channel) // 2
+            bag_subt = bag_subt[start : start + channel]
+        else:
             rand_more = channel - len(bag_subt)
             for i in range(rand_more):
                 tri_fea = seq2array('N' * window_size)
@@ -122,7 +122,7 @@ def get_data(posi, nega = None, channel = 7,  window_size = 101, train = True, m
     if channel == 1:
         train_bags, label, max_len = get_bag_data_1_channel(data, max_len = max_len_)
     else:
-        train_bags, label, max_len = get_bag_data(data, channel = channel, window_size = window_size)
+        train_bags, label = get_bag_data(data, channel = channel, window_size = window_size)
     
     return train_bags, label, max_len
 

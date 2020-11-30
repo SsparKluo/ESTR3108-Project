@@ -6,8 +6,10 @@ import os
 import sys
 import random
 
-max_len = 0
+window_size = 101
 filter_no = 30
+max_len = window_size + 6
+channel = 7
 
 def next_batch(size, X, y):
     index_neg = []
@@ -44,30 +46,23 @@ def max_pool_2x2(x):
     return tf.nn.max_pool(x, ksize = [1, 1, 3, 1], strides = [1, 1, 1, 1], padding = 'SAME')
 
 
-train_X, train_y, max_len0 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.train.positives.fa", nega = "data\\ALKBH5_Baltz2012.train.negatives.fa", channel = 1 )
-test_X, test_y, max_len1 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.ls.positives.fa", nega = "data\\ALKBH5_Baltz2012.ls.negatives.fa", channel = 1)
-
-if max_len0 > max_len1:
-	max_len = max_len0 + 6
-	test_X, test_y, max_len1 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.ls.positives.fa", nega = "data\\ALKBH5_Baltz2012.ls.negatives.fa", channel = 1, max_len = max_len0)
-else:
-	max_len = max_len1 + 6
-	train_X, train_y, max_len0 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.train.positives.fa", nega = "data\\ALKBH5_Baltz2012.train.negatives.fa", channel = 1, max_len = max_len1)
+train_X, train_y, max_len0 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.train.positives.fa", nega = "data\\ALKBH5_Baltz2012.train.negatives.fa", channel = 7, window_size = window_size)
+test_X, test_y, max_len1 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.ls.positives.fa", nega = "data\\ALKBH5_Baltz2012.ls.negatives.fa", channel = 7, window_size = window_size)
 
 sess = tf.InteractiveSession()
 
-x = tf.placeholder(tf.float32, shape = [None, max_len, 4])
+x = tf.placeholder(tf.float32, shape = [None, 7, 4, max_len])
 y = tf.placeholder(tf.float32, shape = [None, 2])
 keep_prob = tf.placeholder(tf.float32)
 
-W_conv1 = wv([10, 4, 1, 8])
-b_conv1 = bv([8])
-W_conv2 = wv([12, 1, 8, 16])
-b_conv2 = bv([16])
-W_conv3 = wv([38, 4, 16, 32])
+W_conv1 = wv([10, 4, 7, 28])
+b_conv1 = bv([28])
+W_conv2 = wv([10, 1, 28, 112])
+b_conv2 = bv([112])
+W_conv3 = wv([38, 4, 112, 224])
 b_conv3 = bv([32])
 
-x_seq = tf.reshape(x, [-1, max_len, 4, 1])
+x_seq = tf.reshape(x, [-1, max_len, 4, channel])
 
 h_conv1 = tf.nn.relu(conv2d(x_seq, W_conv1) + b_conv1)
 #h_pool1 = tf.reduce_max(h_conv1, [1, 2])
@@ -82,16 +77,16 @@ h_pool2 = max_pool_2x2(h_conv2)
 #h_pool3 = max_pool_2x2(h_conv3)
 
 #h_pool_concat = tf.concat([tf.reshape(h_pool1, [-1, filter_no]), tf.reshape(h_pool2, [-1, filter_no]), tf.reshape(h_pool3, [-1, filter_no])], 1)
-h_pool = tf.reshape(h_pool2, [-1, 4 * max_len * 16])
+h_pool = tf.reshape(h_pool2, [-1, 4 * max_len * 112])
 h_drop0 = tf.nn.dropout(h_pool, keep_prob)
 
-W_fc1 = wv([4 * max_len * 16, 512])
-b_fc1 = bv([512])
+W_fc1 = wv([4 * max_len * 112, 256])
+b_fc1 = bv([256])
 h_fc1 = tf.nn.relu(tf.matmul(h_drop0, W_fc1) + b_fc1)
 
 h_drop1 = tf.nn.dropout(h_fc1, keep_prob)
 
-W_fc2 = wv([512, 2])
+W_fc2 = wv([256, 2])
 b_fc2 = bv([2])
 
 y_conv = tf.matmul(h_drop1, W_fc2) + b_fc2
@@ -121,7 +116,7 @@ for i in range(1500):
 		# print(h_p_c)
 		print("step %d, training accuracy %g" % (i, train_accuracy))
 		print("test accuracy %g" % accuracy.eval(feed_dict = {x: test_X, y: test_y, keep_prob: 1.0}))
-	train_step.run(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 0.75})
+	train_step.run(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 0.6})
 
 print(np.array(train_X).shape)
 
