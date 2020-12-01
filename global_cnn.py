@@ -6,6 +6,8 @@ import os
 import sys
 import random
 
+data_name = "CAPRIN1_Baltz2012"
+
 max_len = 0
 filter_no = 30
 
@@ -44,15 +46,15 @@ def max_pool_2x2(x):
     return tf.nn.max_pool(x, ksize = [1, 1, 3, 1], strides = [1, 1, 1, 1], padding = 'SAME')
 
 
-train_X, train_y, max_len0 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.train.positives.fa", nega = "data\\ALKBH5_Baltz2012.train.negatives.fa", channel = 1 )
-test_X, test_y, max_len1 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.ls.positives.fa", nega = "data\\ALKBH5_Baltz2012.ls.negatives.fa", channel = 1)
+train_X, train_y, max_len0 = data_process.get_data(posi = "data\\" + data_name + ".train.positives.fa", nega = "data\\" + data_name + ".train.negatives.fa", channel = 1 )
+test_X, test_y, max_len1 = data_process.get_data(posi = "data\\" + data_name + ".ls.positives.fa", nega = "data\\" + data_name + ".ls.negatives.fa", channel = 1)
 
 if max_len0 > max_len1:
 	max_len = max_len0 + 6
-	test_X, test_y, max_len1 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.ls.positives.fa", nega = "data\\ALKBH5_Baltz2012.ls.negatives.fa", channel = 1, max_len = max_len0)
+	test_X, test_y, max_len1 = data_process.get_data(posi = "data\\" + data_name + ".ls.positives.fa", nega = "data\\" + data_name + ".ls.negatives.fa", channel = 1, max_len = max_len0)
 else:
 	max_len = max_len1 + 6
-	train_X, train_y, max_len0 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.train.positives.fa", nega = "data\\ALKBH5_Baltz2012.train.negatives.fa", channel = 1, max_len = max_len1)
+	train_X, train_y, max_len0 = data_process.get_data(posi = "data\\" + data_name + ".train.positives.fa", nega = "data\\" + data_name + ".train.negatives.fa", channel = 1, max_len = max_len1)
 
 sess = tf.InteractiveSession()
 
@@ -105,8 +107,11 @@ correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 sess.run(tf.global_variables_initializer())
 
+print(train_y.size)
 
-for i in range(600):
+train_time = train_y.size // 8
+
+for i in range(train_time):
 	batch_seq, batch_label = next_batch(256, train_X, train_y)
 	# print(np.array(batch_seq).shape)
 	# print(np.array(batch_label).shape)
@@ -119,7 +124,7 @@ for i in range(600):
 		# print(y_out)
 		# print(h_pool1_out)
 		# print(h_p_c)
-		print("step %d, training accuracy %g" % (i, train_accuracy))
+		print("step %d / %d, training accuracy %g" % (i, train_time, train_accuracy))
 		print("test accuracy %g" % accuracy.eval(feed_dict = {x: test_X, y: test_y, keep_prob: 1.0}))
 	train_step.run(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 0.75})
 
