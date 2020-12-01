@@ -129,7 +129,7 @@ for i in range(30000):
 	train_step.run(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 0.5})
 	if (i % 100 == 0):
 		saver = tf.train.Saver()
-		saver.save(sess, './model/my_model_multi', global_step = i // 100)
+		saver.save(sess, './model_multi/my_model_multi', global_step = i // 100)
 
 
 print(np.array(train_X).shape)

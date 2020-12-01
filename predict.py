@@ -115,12 +115,12 @@ with gl.as_default():
     y_l = tf.placeholder(tf.float32, shape = [None, 2])
     keep_prob_l = tf.placeholder(tf.float32)
 
-    W_conv1_l = wv([10, 4, 7, 28])
+    W_conv1_l = wv([4, 4, 7, 28])
     b_conv1_l = bv([28])
-    W_conv2_l = wv([10, 1, 28, 112])
+    W_conv2_l = wv([5, 1, 28, 112])
     b_conv2_l = bv([112])
-    W_conv3_l = wv([38, 4, 112, 224])
-    b_conv3_l = bv([32])
+    W_conv3_l = wv([5, 1, 112, 224])
+    b_conv3_l = bv([224])
 
     x_seq_l = tf.reshape(x_l, [-1, max_len_l, 4, 7])
 
@@ -132,15 +132,15 @@ with gl.as_default():
     #h_pool2 = tf.reduce_max(h_conv2, [1, 2])
     h_pool2_l = max_pool_2x2(h_conv2_l)
 
-    #h_conv3 = tf.nn.relu(conv2d(h_pool2, W_conv3) + b_conv3)
+    h_conv3_l = tf.nn.relu(conv2d(h_pool2_l, W_conv3_l) + b_conv3_l)
     #h_pool3 = tf.reduce_max(h_conv3, [1, 2])
-    #h_pool3 = max_pool_2x2(h_conv3)
+    h_pool3_l = max_pool_2x2(h_conv3_l)
 
     #h_pool_concat = tf.concat([tf.reshape(h_pool1, [-1, filter_no]), tf.reshape(h_pool2, [-1, filter_no]), tf.reshape(h_pool3, [-1, filter_no])], 1)
-    h_pool_l = tf.reshape(h_pool2_l, [-1, 4 * max_len_l * 112])
+    h_pool_l = tf.reshape(h_pool3_l, [-1, 13 * 224])
     h_drop0_l = tf.nn.dropout(h_pool_l, keep_prob_l)
 
-    W_fc1_l = wv([4 * max_len_l * 112, 256])
+    W_fc1_l = wv([13 * 224, 256])
     b_fc1_l = bv([256])
     h_fc1_l = tf.nn.relu(tf.matmul(h_drop0_l, W_fc1_l) + b_fc1_l)
 
@@ -158,7 +158,7 @@ with gl.as_default():
 
 with tf.Session(graph=gg) as sess:
     saver_g = tf.train.Saver()
-    ckpt_g = tf.train.get_checkpoint_state('./gmodel/')
+    ckpt_g = tf.train.get_checkpoint_state('./model_global/')
     if ckpt_g and ckpt_g.model_checkpoint_path:
         saver_g.restore(sess, ckpt_g.model_checkpoint_path)
     #sess.run(tf.initialize_all_variables())
@@ -168,7 +168,7 @@ with tf.Session(graph=gg) as sess:
     
 with tf.Session(graph=gl) as sess:
     saver_l = tf.train.Saver()
-    ckpt_l = tf.train.get_checkpoint_state('./lmodel/')
+    ckpt_l = tf.train.get_checkpoint_state('./model_multi/')
     if ckpt_l and ckpt_l.model_checkpoint_path:
         saver_l.restore(sess, ckpt_l.model_checkpoint_path)
     #sess.run(tf.initialize_all_variables())

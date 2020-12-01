@@ -124,7 +124,7 @@ for i in range(600):
 	train_step.run(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 0.75})
 
 saver = tf.train.Saver()
-saver.save(sess, './gmodel/my_model', global_step = 1)
+saver.save(sess, './model_global/my_model', global_step = 1)
 
 
 """
