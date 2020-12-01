@@ -39,15 +39,18 @@ def bv(shape):
 	init = tf.constant(0.1, shape = shape)
 	return tf.Variable(init)
 
+def conv2dv(x, W):
+	return tf.nn.conv2d(x, W, strides = [1, 1, 1, 1], padding = 'VALID')
+
 def conv2d(x, W):
 	return tf.nn.conv2d(x, W, strides = [1, 1, 1, 1], padding = 'SAME')
 
 def max_pool_2x2(x):
-    return tf.nn.max_pool(x, ksize = [1, 1, 3, 1], strides = [1, 1, 1, 1], padding = 'SAME')
+    return tf.nn.max_pool(x, ksize = [1, 2, 1, 1], strides = [1, 2, 1, 1], padding = 'SAME')
 
 
-train_X, train_y, max_len0 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.train.positives.fa", nega = "data\\ALKBH5_Baltz2012.train.negatives.fa", channel = 7, window_size = window_size)
-test_X, test_y, max_len1 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.ls.positives.fa", nega = "data\\ALKBH5_Baltz2012.ls.negatives.fa", channel = 7, window_size = window_size)
+train_X, train_y, max_len0 = data_process.get_data(posi = "data\\PARCLIP_FUS.train.positives.fa", nega = "data\\PARCLIP_FUS.train.negatives.fa", channel = 7, window_size = window_size)
+test_X, test_y, max_len1 = data_process.get_data(posi = "data\\PARCLIP_FUS.ls.positives.fa", nega = "data\\PARCLIP_FUS.ls.negatives.fa", channel = 7, window_size = window_size)
 
 sess = tf.InteractiveSession()
 
@@ -55,32 +58,39 @@ x = tf.placeholder(tf.float32, shape = [None, 7, 4, max_len])
 y = tf.placeholder(tf.float32, shape = [None, 2])
 keep_prob = tf.placeholder(tf.float32)
 
-W_conv1 = wv([10, 4, 7, 28])
+W_conv1 = wv([4, 4, 7, 28])
 b_conv1 = bv([28])
-W_conv2 = wv([10, 1, 28, 112])
+W_conv2 = wv([5, 1, 28, 112])
 b_conv2 = bv([112])
-W_conv3 = wv([38, 4, 112, 224])
-b_conv3 = bv([32])
+W_conv3 = wv([5, 1, 112, 224])
+b_conv3 = bv([224])
 
+# [-1, 104, 4, 7]
 x_seq = tf.reshape(x, [-1, max_len, 4, channel])
 
-h_conv1 = tf.nn.relu(conv2d(x_seq, W_conv1) + b_conv1)
+# [-1, 104, 1, 28]
+h_conv1 = tf.nn.relu(conv2dv(x_seq, W_conv1) + b_conv1)
 #h_pool1 = tf.reduce_max(h_conv1, [1, 2])
+# [-1, 52, 1, 28]
 h_pool1 = max_pool_2x2(h_conv1)
 
+# [-1, 52, 1, 112]
 h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
 #h_pool2 = tf.reduce_max(h_conv2, [1, 2])
+# [-1, 26, 1, 112]
 h_pool2 = max_pool_2x2(h_conv2)
 
-#h_conv3 = tf.nn.relu(conv2d(h_pool2, W_conv3) + b_conv3)
+# [-1, 26, 1, 224]
+h_conv3 = tf.nn.relu(conv2d(h_pool2, W_conv3) + b_conv3)
 #h_pool3 = tf.reduce_max(h_conv3, [1, 2])
-#h_pool3 = max_pool_2x2(h_conv3)
+# [-1, 13, 1, 224]
+h_pool3 = max_pool_2x2(h_conv3)
 
 #h_pool_concat = tf.concat([tf.reshape(h_pool1, [-1, filter_no]), tf.reshape(h_pool2, [-1, filter_no]), tf.reshape(h_pool3, [-1, filter_no])], 1)
-h_pool = tf.reshape(h_pool2, [-1, 4 * max_len * 112])
+h_pool = tf.reshape(h_pool3, [-1, 13 * 224])
 h_drop0 = tf.nn.dropout(h_pool, keep_prob)
 
-W_fc1 = wv([4 * max_len * 112, 256])
+W_fc1 = wv([13 * 224, 256])
 b_fc1 = bv([256])
 h_fc1 = tf.nn.relu(tf.matmul(h_drop0, W_fc1) + b_fc1)
 
@@ -101,7 +111,7 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 sess.run(tf.global_variables_initializer())
 
 
-for i in range(1500):
+for i in range(30000):
 	batch_seq, batch_label = next_batch(256, train_X, train_y)
 	# print(np.array(batch_seq).shape)
 	# print(np.array(batch_label).shape)
@@ -116,18 +126,24 @@ for i in range(1500):
 		# print(h_p_c)
 		print("step %d, training accuracy %g" % (i, train_accuracy))
 		print("test accuracy %g" % accuracy.eval(feed_dict = {x: test_X, y: test_y, keep_prob: 1.0}))
-	train_step.run(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 0.75})
+	train_step.run(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 0.5})
+	if (i % 100 == 0):
+		saver = tf.train.Saver()
+		saver.save(sess, './model/my_model_multi', global_step = i // 100)
+
 
 print(np.array(train_X).shape)
 
+'''
 oh_label = []
 for i, one_label in enumerate(train_y):
 	if (one_label):
 		oh_label.append([0, 1])
 	else:
 		oh_label.append([1, 0])
+'''
 
-y_out_final = y_conv.eval(feed_dict = {x: train_X, y: oh_label, keep_prob: 1.0})
+y_out_final = y_conv.eval(feed_dict = {x: train_X, y: one_label, keep_prob: 1.0})
 correct_prediction_out = correct_prediction.eval(feed_dict = {x: train_X, y: oh_label, keep_prob: 1.0})
 # print(label)
 # print(oh_label)
