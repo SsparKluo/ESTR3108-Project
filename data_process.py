@@ -118,7 +118,7 @@ def get_data(posi, nega = None, channel = 7,  window_size = 101, train = True, m
         max_len_ = data["max_len"]
     else:
         max_len_ = max_len
-    print("max_len = ", max_len_)
+    #print("max_len = ", max_len_)
     if channel == 1:
         train_bags, label, max_len = get_bag_data_1_channel(data, max_len = max_len_)
     else:
