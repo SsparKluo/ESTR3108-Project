@@ -22,6 +22,16 @@
 \documentclass[twoside,twocolumn]{article}
 
 \usepackage{blindtext} % Package to generate dummy text throughout this template 
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{rotating}
+\usepackage{diagbox}
+\newcommand{\tabincell}[2]{
+  \begin{tabular}
+    {@{}#1@{}}#2
+  \end{tabular}
+}
 
 \usepackage[sc]{mathpazo} % Use the Palatino font
 \usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
@@ -101,16 +111,38 @@
 \section{Introduction}
 
 \lettrine[nindent=0em,lines=3]{R} NA-binding proteins (RBPs) play key roles in 
-many biological processes. As introduced by Castello et al., 2012, RBPs take more than 
-5-10\% of the eukaryotic proteome. RBPs have great impact on important biological
-process like gene regulation (Gerstberger et al., 2014) and mRNA localization
-(Dictenberg et al., 2012). Mutations of RBPs may lead to various diseases. The 
-mutation of RBPs 
+many biological processes. However, detecting the RBP binding sites by 
+experiments is very time-intensive. 
+Although high-throughput technologies, e.g. CLIP-seq \cite{ref5} have
+boosted the process of detecting RBP binding sites, and have gained a large amount
+of experiment results, they are still time-consuming and high-costly.
+Thus computational 
+methods to predict the RBP binding sites with the help of deep learning is 
+essential. 
+
+Computational methods will save a lot of time and will reduce costs. 
+Currently, many computational methods have been proposed to predict RBP binding
+sites \cite{ref6}, including methods based on support vector machines
+(SVMs). With the development of deep learning, methods based on convolutional
+neural networks (CNNs) are also proposed.
+
+However, most current methods with deep learning consider only global 
+representations of entire RNA sequences, while specific RBPs recognize 
+local structure context derived from local RNA sequences from the biological 
+point of view. Therefore, a model which considers both global and local 
+sequences is needed.
 
 %------------------------------------------------
 
 \section{Background}
     \subsection{RBPs}
+    RNA-binding proteins (RBPs) play key roles in 
+    many biological processes. As introduced by \cite{ref7}, RBPs 
+    take more than 5-10\% of the eukaryotic proteome. RBPs have great impact 
+    on important biological process like gene regulation \cite{ref8} and mRNA 
+    localization \cite{ref9}. Mutations of RBPs 
+    may lead to various diseases. Thus, to predict the RBP binding sites may
+    provide a better understanding of some important biological processes.
     \subsection{CNN}
     
     CNN is a kind of supervised learning that use multiple convolutional layer to extract hidden feature from input data. CNN is widely used in image recognition and classification algorithm. A typical CNN consists of convolutional, pooling and full connected layers. Convolutional layers are used to extract features, pooling layers are used to decrease the dimensions of data and full connected layers can choose which features are more relative to which class.
@@ -144,16 +176,84 @@ There are lots of reseaches showing that deep learning can perform much better t
     \item Other details: Due to the limitation of experiments, the number of positive data and negative data is unbalanced. In order to ensure the balance between positive input and negative input, we use over-sampling strategy, which means the sample in the small size class can be used much more times. This method can significantly increase the training efficient \cite{ref4}.
 \end{itemize}
 \section{Results}
+Results are gained after training and testing the model. In this section, we will
+first introduce the parameter of our model, then we compare our methods with other
+currently proposed methods. Additionally, we evaluate the performance of combining
+the local CNN and global CNN, by comparing their performance independently.
 
-\blindtext % Dummy text
+\subsection{Parameter}
+Due to the limitation of time, we have only tried a small amount of parameter options,
+including hyperparmeters of CNNs (dropout probability = 0.5, learning rate = 0.0001, other
+parameters have been listed in secion IV.), thus the parameters may not be the optimal, 
+but we still gained satisfactory results.
 
-\begin{equation}
-\label{eq:emc}
-e = mc^2
-\end{equation}
+\subsection{Performance}
+As shown in Table 1, our method performs better than Pse-SVM in general,
+and is close to other state-of-art methods. The main defect of our method
+appears in the first few datasets, including ALKBH5, C17ORF85, C22ORF28, etc.
+We've analyze these datasets, and found that these datasets are smaller than the
+others, with fewer sequences for training. This may lead to overfitting, and thus
+reduce the testing accuracy.
+In datasets with sufficient training sequences, e.g. QKI, ELAVL1C and TAF15, our
+method performs similarly to the state-of-art methods. Consider that the parameters
+we have used may not be the optimal, our method have huge potential.
 
-\blindtext % Dummy text
+\subsection{Local and global CNNs}
+Our method combines the local CNN and global CNN together. It's naturally to ask
+whether this combination is effective. As shown in Table 2, in most cases, the 
+combination of two networks results in better performance of both independent
+network. 
 
+\begin{table*}
+  \caption{performance of different methods across different datasets}
+  \centering
+  \begin{tabular}{c|ccccccc}
+  \toprule
+  \diagbox{RBP}{method} & \tabincell{c}{Our\\method} & iDeepE & 
+  \tabincell{c}{CNN-\\LSTM-E} & ResNet-E & \tabincell{c}{Pse-\\SVM} & 
+  \tabincell{c}{Graph\\Prot} & \tabincell{c}{Deepnet-\\rbp} \\
+  \midrule
+  ALKBH5   & 0.609 & 0.758 & 0.653 & 0.656 & 0.648 & 0.680 & 0.714 \\
+  C17ORF85 & 0.762 & 0.830 & 0.822 & 0.756 & 0.734 & 0.800 & 0.820 \\
+  C22ORF28 & 0.73	 & 0.837 & 0.801 & 0.829 & 0.764 & 0.751 & 0.792 \\
+  CAPRIN1  & 0.824 & 0.893 & 0.871 & 0.891 & 0.728 & 0.855 & 0.834 \\
+  Ago2     & 0.833 & 0.884 & 0.851 & 0.854 & 0.746 & 0.765 & 0.809 \\
+  ELAVL1H  & 0.932 & 0.979 & 0.975 & 0.975 & 0.816 & 0.955 & 0.966 \\
+  SFRS1    & 0.891 & 0.946 & 0.929 & 0.945 & 0.746 & 0.898 & 0.931 \\
+  HNRNPC   & 0.943 & 0.976 & 0.973 & 0.975 & 0.824 & 0.952 & 0.962 \\
+  TDP43    & 0.901 & 0.945 & 0.928 & 0.937 & 0.840 & 0.874 & 0.876 \\
+  TIA1     & 0.853 & 0.937 & 0.911 & 0.929 & 0.784 & 0.861 & 0.891 \\
+  TIAL1    & 0.842 & 0.934 & 0.901 & 0.930 & 0.724 & 0.833 & 0.870 \\
+  Ago1-4   & 0.84	 & 0.915 & 0.873 & 0.911 & 0.728 & 0.895 & 0.881 \\
+  ELAVL1B  & 0.938 & 0.971 & 0.963 & 0.970 & 0.837 & 0.935 & 0.961 \\
+  ELAVL1A  & 0.912 & 0.964 & 0.962 & 0.961 & 0.830 & 0.959 & 0.966 \\
+  EWSR1    & 0.901 & 0.969 & 0.965 & 0.967 & 0.753 & 0.935 & 0.966 \\
+  FUS      & 0.922 & 0.985 & 0.980 & 0.977 & 0.762 & 0.968 & 0.980 \\
+  ELAVL1C  & 0.952 & 0.988 & 0.986 & 0.988 & 0.853 & 0.991 & 0.994 \\
+  IGF2BP1-3 & 0.89 & 0.947 & 0.940 & 0.952 & 0.753 & 0.889 & 0.879 \\
+  MOV10    & 0.857 & 0.916 & 0.899 & 0.911 & 0.783 & 0.863 & 0.854 \\
+  PUM2     & 0.927 & 0.967 & 0.963 & 0.965 & 0.840 & 0.954 & 0.971 \\
+  QKI      & 0.968 & 0.970 & 0.966 & 0.969 & 0.809 & 0.957 & 0.983 \\
+  TAF15    & 0.947 & 0.976 & 0.974 & 0.971 & 0.769 & 0.970 & 0.983 \\
+  PTB      & 0.902 & 0.944 & 0.929 & 0.943 & 0.867 & 0.937 & 0.983 \\
+  ZC3H7B   & 0.817 & 0.907 & 0.879 & 0.906 & 0.743 & 0.820 & 0.796 \\
+  Mean     & 0.871 & 0.931 & 0.912 & 0.919 & 0.778 & 0.887 & 0.902 \\
+  \bottomrule
+  \end{tabular}
+  \end{table*}
+  
+
+\begin{table}
+  \caption{Average performance of local and global CNN, and combination}
+  \centering
+  \begin{tabular}{c|c|c}
+    \toprule
+    local CNN & global CNN & combination \\
+    \midrule
+    0.852 & 0.847 & 0.871 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 %------------------------------------------------
 
 \section{Discussion}
@@ -184,6 +284,21 @@ Alipanahi, Babak, et al. "Predicting the sequence specificities of DNA-and RNA-b
 
 \bibitem[Ando, Shin and Huang, 2017]{ref4}
 Ando, Shin, and Chun Yuan Huang. "Deep over-sampling framework for classifying imbalanced data." \newblock{\em Joint European Conference on Machine Learning and Knowledge Discovery in Databases}. Springer, Cham, 2017.
+
+\bibitem[5]{ref5}
+Anders G. et al.  "doRiNA: a database of RNA interactions in post-transcriptional regulation." \newblock{\em Nucleic Acids Res.}, 40, D180–D186, 2012.
+
+\bibitem[6]{ref6}
+Corrado G. et al.  "RNAcommender: genome-wide recommendation of RNA–protein interactions." \newblock{\em Bioinformatics}, 32, 3627–3634, 2016.
+
+\bibitem[7]{ref7}
+Castello A. et al. "Insights into RNA biology from an atlas of mammalian mRNA-binding proteins." \newblock{\em Cell}, 149, 1393–1406, 2012.
+
+\bibitem[8]{ref8}
+Gerstberger S. et al.  "A census of human RNA-binding proteins." \newblock{\em Nat. Rev. Genet.}, 15, 829–845, 2014.
+
+\bibitem[9]{ref9}
+Dictenberg J.B. et al. "A direct role for FMRP in activity-dependent dendritic mRNA transport links filopodial-spine morphogenesis to fragile X syndrome." \newblock{\em Dev. Cell}, 14, 926–939, 2008.
 
 \end{thebibliography}
 
