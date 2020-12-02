@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.12.1)  2 DEC 2020 16:40
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.12.1)  2 DEC 2020 16:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -570,17 +570,10 @@ Underfull \vbox (badness 4543) has occurred while \output is active []
 
 
 ]
-Underfull \hbox (badness 1424) in paragraph at lines 154--155
-\T1/pplx/m/n/10 from ex-per-i-ments, we can use tra-di-tional
- []
-
-
-Underfull \hbox (badness 1983) in paragraph at lines 154--155
-\T1/pplx/m/n/10 nolo-gies are time-intensive and ex-pen-sive
- []
+Underfull \vbox (badness 2384) has occurred while \output is active []
 
 LaTeX Font Info:    Trying to load font information for TS1+pplx on input line 162.
-(c:/texlive/2020/texmf-dist/tex/latex/psnfss/ts1pplx.fd
+ (c:/texlive/2020/texmf-dist/tex/latex/psnfss/ts1pplx.fd
 File: ts1pplx.fd 2004/09/06 font definitions for TS1/pplx.
 )
 Underfull \hbox (badness 1648) in paragraph at lines 170--171
@@ -608,26 +601,6 @@ Underfull \hbox (badness 1454) in paragraph at lines 178--179
  []
 
 
-Underfull \hbox (badness 2452) in paragraph at lines 178--179
-\T1/pplx/m/n/10 of ex-per-i-ments, the num-ber of pos-i-
- []
-
-
-Underfull \hbox (badness 1226) in paragraph at lines 178--179
-\T1/pplx/m/n/10 tive data and neg-a-tive data is un-bal-
- []
-
-
-Underfull \hbox (badness 1931) in paragraph at lines 178--179
-\T1/pplx/m/n/10 anced. In or-der to en-sure the bal-
- []
-
-
-Underfull \hbox (badness 1337) in paragraph at lines 178--179
-\T1/pplx/m/n/10 egy, which means the sam-ple in the
- []
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [3]
@@ -636,28 +609,13 @@ Underfull \hbox (badness 1436) in paragraph at lines 270--271
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 290--291
-[]\T1/pplx/m/n/10 Alipanahi,
+Underfull \hbox (badness 1365) in paragraph at lines 293--294
+[]\T1/pplx/m/n/10 Ando, Shin, and Chun Yuan Huang.
  []
 
 
-Underfull \hbox (badness 2521) in paragraph at lines 290--291
-\T1/pplx/m/n/10 pro-teins by deep learn-ing."  \T1/pplx/m/it/10 Na-ture
- []
-
-[4] [5]
-Underfull \hbox (badness 10000) in paragraph at lines 293--294
-[]\T1/pplx/m/n/10 Ando, Shin,
- []
-
-
-Underfull \hbox (badness 1953) in paragraph at lines 293--294
-\T1/pplx/m/n/10 and Chun Yuan Huang. "Deep over-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 293--294
-\T1/pplx/m/n/10 sampling frame-work for clas-si-fy-ing
+Underfull \hbox (badness 4060) in paragraph at lines 293--294
+\T1/pplx/m/it/10 edge Dis-cov-ery in Databases\T1/pplx/m/n/10 . Springer,
  []
 
 Missing character: There is no – in font pplr9e!
@@ -666,6 +624,7 @@ Underfull \hbox (badness 3439) in paragraph at lines 296--297
 \T1/pplx/m/n/10 reg-u-la-tion."  \T1/pplx/m/it/10 Nu-cleic Acids Res.\T1/pplx/m/n/10 , 40,
  []
 
+[4] [5]
 Missing character: There is no – in font pplr9e!
 Missing character: There is no – in font pplr9e!
 
@@ -701,7 +660,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 314.
 Here is how much of TeX's memory you used:
  14056 strings out of 479418
  212033 string characters out of 5888105
- 529703 words of memory out of 5000000
+ 530599 words of memory out of 5000000
  31356 multiletter control sequences out of 15000+600000
  568879 words of font info for 71 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
