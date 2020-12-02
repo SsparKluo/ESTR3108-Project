@@ -151,7 +151,7 @@ sequences is needed.
 
 The key of our method is that a specific RBP can only recognize one class of RNA sequences which have similar subsequence in somewhere of the rna, called motif. Therefore, our goal is to recognize the similar subsequence, motif, from the given RNA sequence. 
 
-One method is based on the experiment results. As long as we get some motifs from experiments, we can use traditional bioinfomatics tools like k-mers to calculate the similarity of input sequence and known motifs. However, the high-throughput technologies are time-intensive and expensive \cite{ref1}, and results are not satisfactory, so the number of accurately known motif is small compared to the real situation. And other drawback is that this method may not be able to make a accurate predicion if the corresponding motif havn't been found.
+One method is based on the experiment results. As long as we get some motifs from experiments, we can use traditional bioinfomatics tools like k-mers to calculate the similarity of input sequence and known motifs. However, the high-throughput technologies are time-intensive and expensive \cite{ref1}, and results are not satisfactory, so the number of accurately known motif is small compared to the real situation. And other drawback is that this method may not be able to make a accurate prediction if the corresponding motif havn't been found.
 
 The second method is to use data-driven approaching like machine learning. Our project is based on this method. In our method, we don't need the knowledge of motifs, and the network will try to find the features we need. CNN, as a powerful feature extracting tool, has potential to find similar structure from giving data, and make a more accurate prediction compared to the first method.
 %------------------------------------------------
@@ -159,21 +159,23 @@ The second method is to use data-driven approaching like machine learning. Our p
 
 There are lots of reseaches showing that deep learning can perform much better than the previous method \cite{ref2}. There are several network has promising performance, including CNNs and LSTMs. In our project, we decide to use two kinds of CNNs, global CNN and local CNN, to make the prediction, and here are the implementation details:
 \begin{itemize}
-    \item Global CNNs: The purpose of this CNN is to extract useful feature from RNA sequence. In this CNN, we will feed the whole RNA sequence to the network, so that the network will find features no matter where the subsequence locate. Since the CNN can only receive fixed length input, we need to read and preprocess the data before training and test models(Details about the data preprocess can be found in the third points). 
+    \item \textbf{Global CNNs}: The purpose of this CNN is to extract useful feature from RNA sequence. In this CNN, we will feed the whole RNA sequence to the network, so that the network will find features no matter where the subsequence locate. Since the CNN can only receive fixed length input, we need to read and preprocess the data before training and test models(Details about the data preprocess can be found in the third points). 
     
     For the network, we set 2 convolutional layers, 2 pooling layers and 2 dense layers. The kernel size of the first layer is [10, 4], because as Deepbind suggested, the best kernel length is about 1.5 times of the average motifs' length which 7 \cite{ref3}. The kernel size of the second layer is [10, 1] due to the same reason.
 
-    \item Local CNNs: The purpose of the CNN is to find the relationship of consecutive features. In this network, we will feed the multi-channel tensor to the network, so that the relationship between different channel can make difference. Since the raw data contain only one channel, we also need to do the preprocessing.
+    \item \textbf{Local CNNs}: The purpose of the CNN is to find the relationship of consecutive features. In this network, we will feed the multi-channel tensor to the network, so that the relationship between different channel can make difference. Since the raw data contain only one channel, we also need to do the preprocessing.
     
     For this network, we set 3 convolutional layers, 3 pooling layer and 2 dense layers. This networks is more complicated because the dimensions of input data are greater, and the complexity of data is higher. 
 
-    \item Data preprocessing: We downloaded the RBP-24 dataset from the website of GraphProt \href{http://www.bioinf.uni-freiburg.de/Software/GraphProt}{http://www.bioinf.uni-freiburg.de/Software/GraphProt}. The origin data type in this dataset is nucleotide sequence. In order to feed the data to CNNs, we need to transform the string into one-hot tensor. After transforming, every sequence can be seen as a graph with width of 4. 
+    \item \textbf{Data preprocessing}: We downloaded the RBP-24 dataset from the website of GraphProt \href{http://www.bioinf.uni-freiburg.de/Software/GraphProt}{http://www.bioinf.uni-freiburg.de/Software/GraphProt}. The origin data type in this dataset is nucleotide sequence. In order to feed the data to CNNs, we need to transform the string into one-hot tensor. After transforming, every sequence can be seen as a graph with width of 4. 
     
     For global CNNs, we will find the max sequence length among data of each RBPs, and then padding the rest to that length by adding [[0.25],[0.25],[0.25],[0.25]] to the tail of each one-hot matrix.
 
     For local CNNs, we will divide the sequence into fixed length subsequence with fixed shifting length, and then append the later subsequence to the channel of previous subsequence, until the channels are full or there is no subsequence left. In our project, the window size has been set to 101, shifting size is 20 and the channel size is 7.
 
-    \item Other details: Due to the limitation of experiments, the number of positive data and negative data is unbalanced. In order to ensure the balance between positive input and negative input, we use over-sampling strategy, which means the sample in the small size class can be used much more times. This method can significantly increase the training efficient \cite{ref4}.
+    \item \textbf{Models ensembling}: Model ensembling is common because it's hard to get a high performance predictor by using only one model. In our situation, we also meet this problem that the prediction is not accurate if we only use one of the CNN models, because both the sequence character and the features independence are important for binding. Therefore, we train those 2 CNN separately, and use both in the prediction phase, by just average the output probabilities(probabilities of positive and negative). In our experiment, this method can increase the accuracy.
+
+    \item \textbf{Other details}: Due to the limitation of experiments, the number of positive data and negative data is unbalanced. In order to ensure the balance between positive input and negative input, we use over-sampling strategy, which means the sample in the small size class can be used much more times in training. This method can significantly increase the training efficient \cite{ref4}.
 \end{itemize}
 \section{Results}
 Results are gained after training and testing the model. In this section, we will
@@ -258,10 +260,15 @@ network.
 
 \section{Discussion}
 
-\subsection{Subsection One}
+\subsection{Unsatisfactory prediction result for dataset \em Baltz2012}
 
-A statement requiring citation \cite{Figueredo:2009dg}.
-\blindtext % Dummy text
+From the result part showed, the prediction for first 3 RBPs is not accurate enough. We discussed about why these performance are different, and give some potential reason:
+
+\begin{itemize}
+    \item \textbf{Overfitting:} Actually, we have found this problem in the early phase of our project, and the reason we gave at that time is overfitting because the training accuracy was not bad but the testing accuracy is super low, even lower than 50 in that time. High training accuracy and low testing accuracy are the character of overfitting. However, we have cut down the number of layers and neurons per layer since finding that situation, and the final version of our networks is not complex. However, the problem have been improved but not really solved. Therefore, overfitting may be parts of the reason, but we don't think it's the main reason.
+    \item \textbf{Small size of datasets}: We also found that the datasize for those 3 RBPs is significantly smaller than others, especially the first dataset. We natually guessed that the size is too small to represent all the features to recognize the special structures.
+    \item \textbf{Quality of Experiment result}: As we mentioned before, the high-throughput technology is an expensive and time-intensive new technology, so the quality of a experiment may not as reliable as some mature technology. We found that not only our project, others also meet the similar problem. Maybe there are too many false result in those datasets, which cannot be distinguished by our project.
+\end{itemize}
 
 \subsection{Subsection Two}
 
