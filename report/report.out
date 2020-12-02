@@ -1,6 +1,6 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.2}{Background}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{RBPs}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.1}{RNA-binding\040proteins\(RBPs\)}{section.2}% 3
 \BOOKMARK [2][-]{subsection.2.2}{CNN}{section.2}% 4
 \BOOKMARK [1][-]{section.3}{Methods}{}% 5
 \BOOKMARK [1][-]{section.4}{Implementation}{}% 6
@@ -10,4 +10,4 @@
 \BOOKMARK [2][-]{subsection.5.3}{Local\040and\040global\040CNNs}{section.5}% 10
 \BOOKMARK [1][-]{section.6}{Discussion}{}% 11
 \BOOKMARK [2][-]{subsection.6.1}{Unsatisfactory\040prediction\040result\040for\040dataset\040Baltz2012}{section.6}% 12
-\BOOKMARK [2][-]{subsection.6.2}{Subsection\040Two}{section.6}% 13
+\BOOKMARK [2][-]{subsection.6.2}{Potential\040improvements}{section.6}% 13

@@ -135,7 +135,7 @@ sequences is needed.
 %------------------------------------------------
 
 \section{Background}
-    \subsection{RBPs}
+    \subsection{RNA-binding proteins(RBPs)}
     RNA-binding proteins (RBPs) play key roles in 
     many biological processes. As introduced by \cite{ref7}, RBPs 
     take more than 5-10\% of the eukaryotic proteome. RBPs have great impact 
@@ -217,6 +217,66 @@ network.
   \end{tabular}
 \end{table}
 
+%------------------------------------------------
+
+\section{Discussion}
+
+\subsection{Unsatisfactory prediction result for dataset \em Baltz2012}
+
+From the result part showed, the prediction for first 3 RBPs is not accurate enough. We discussed about why these performance are different, and give some potential reason:
+
+\begin{itemize}
+    \item \textbf{Overfitting:} Actually, we have found this problem in the early phase of our project, and the reason we gave at that time is overfitting because the training accuracy was not bad but the testing accuracy is super low, even lower than 50 in that time. High training accuracy and low testing accuracy are the character of overfitting. However, we have cut down the number of layers and neurons per layer since finding that situation, and the final version of our networks is not complex. However, the problem have been improved but not really solved. Therefore, overfitting may be parts of the reason, but we don't think it's the main reason.
+    \item \textbf{Small size of datasets}: We also found that the datasize for those 3 RBPs is significantly smaller than others, especially the first dataset. We natually guessed that the size is too small to represent all the features to recognize the special structures.
+    \item \textbf{Quality of Experiment result}: As we mentioned before, the high-throughput technology is an expensive and time-intensive new technology, so the quality of a experiment may not as reliable as some mature technology. We found that not only our project, others also meet the similar problem. Maybe there are too many false result in those datasets, which cannot be distinguished by our project.
+\end{itemize}
+
+\subsection{Potential improvements}
+
+The performance of our predictor is not bad, but it should be better since the accuracy of other similar predictor can reach 0.9 or even higher. There must be some potential improvements, and we will give our ideas here:
+
+\begin{itemize}
+  \item \textbf{Adjust the parameters of CNNs}: The parameters of CNN can effect the performance of a model, so they should be carefully tuned to get the best result. However, we use same parameters(including kernel size, number of nodes) for all RBPs, which will definitely decease the accuracy. Therefore, we can adjust the parameters for every RBPs.
+  
+  Additionally, the prior knowledge about the motif can be helpful for parameters adjustment. If we know the average length of motifs for each RBPs, we can change the kernel size to 1.5 times of that length to get a better feature extraction performance.
+
+  \item \textbf{Try to rearrange the testing and training set}: In our project, the dataset which we chose have been separated by other researchers. However, we can rearrange the training and testing set. In this way, we can have multiple pairs of training and testing dataset. We can train and test CNN by using these different pairs, and choose the one with best accuracy.
+\end{itemize}
+%----------------------------------------------------------------------------------------
+%	REFERENCE LIST
+%----------------------------------------------------------------------------------------
+
+\begin{thebibliography}{99} % Bibliography - this is intentionally simple in this template
+
+\bibitem[1]{ref1}
+Hafner, Markus, et al. "Transcriptome-wide identification of RNA-binding protein and microRNA target sites by PAR-CLIP." \newblock{\em Cell} 141.1 (2010): 129-141.
+
+\bibitem[2]{ref2}
+Pan, Xiaoyong, et al. "Prediction of RNA-protein sequence and structure binding preferences using deep convolutional and recurrent neural networks." \newblock{\em BMC genomics} 19.1 (2018): 511.
+
+\bibitem[3]{ref3}
+Alipanahi, Babak, et al. "Predicting the sequence specificities of DNA-and RNA-binding proteins by deep learning." \newblock{\em Nature biotechnology} 33.8 (2015): 831-838.
+
+\bibitem[4]{ref4}
+Ando, Shin, and Chun Yuan Huang. "Deep over-sampling framework for classifying imbalanced data." \newblock{\em Joint European Conference on Machine Learning and Knowledge Discovery in Databases}. Springer, Cham, 2017.
+
+\bibitem[5]{ref5}
+Anders G. et al.  "doRiNA: a database of RNA interactions in post-transcriptional regulation." \newblock{\em Nucleic Acids Res.}, 40, D180–D186, 2012.
+
+\bibitem[6]{ref6}
+Corrado G. et al.  "RNAcommender: genome-wide recommendation of RNA–protein interactions." \newblock{\em Bioinformatics}, 32, 3627–3634, 2016.
+
+\bibitem[7]{ref7}
+Castello A. et al. "Insights into RNA biology from an atlas of mammalian mRNA-binding proteins." \newblock{\em Cell}, 149, 1393–1406, 2012.
+
+\bibitem[8]{ref8}
+Gerstberger S. et al.  "A census of human RNA-binding proteins." \newblock{\em Nat. Rev. Genet.}, 15, 829–845, 2014.
+
+\bibitem[9]{ref9}
+Dictenberg J.B. et al. "A direct role for FMRP in activity-dependent dendritic mRNA transport links filopodial-spine morphogenesis to fragile X syndrome." \newblock{\em Dev. Cell}, 14, 926–939, 2008.
+
+\end{thebibliography}
+
 \begin{table*}
   \caption{performance of different methods across different datasets}
   \centering
@@ -253,62 +313,8 @@ network.
   Mean     & 0.871 & 0.931 & 0.912 & 0.919 & 0.778 & 0.887 & 0.902 \\
   \bottomrule
   \end{tabular}
-  \end{table*}
+\end{table*}
   
-
-%------------------------------------------------
-
-\section{Discussion}
-
-\subsection{Unsatisfactory prediction result for dataset \em Baltz2012}
-
-From the result part showed, the prediction for first 3 RBPs is not accurate enough. We discussed about why these performance are different, and give some potential reason:
-
-\begin{itemize}
-    \item \textbf{Overfitting:} Actually, we have found this problem in the early phase of our project, and the reason we gave at that time is overfitting because the training accuracy was not bad but the testing accuracy is super low, even lower than 50 in that time. High training accuracy and low testing accuracy are the character of overfitting. However, we have cut down the number of layers and neurons per layer since finding that situation, and the final version of our networks is not complex. However, the problem have been improved but not really solved. Therefore, overfitting may be parts of the reason, but we don't think it's the main reason.
-    \item \textbf{Small size of datasets}: We also found that the datasize for those 3 RBPs is significantly smaller than others, especially the first dataset. We natually guessed that the size is too small to represent all the features to recognize the special structures.
-    \item \textbf{Quality of Experiment result}: As we mentioned before, the high-throughput technology is an expensive and time-intensive new technology, so the quality of a experiment may not as reliable as some mature technology. We found that not only our project, others also meet the similar problem. Maybe there are too many false result in those datasets, which cannot be distinguished by our project.
-\end{itemize}
-
-\subsection{Subsection Two}
-
-\blindtext % Dummy text
-
-%----------------------------------------------------------------------------------------
-%	REFERENCE LIST
-%----------------------------------------------------------------------------------------
-
-\begin{thebibliography}{99} % Bibliography - this is intentionally simple in this template
-
-\bibitem[1]{ref1}
-Hafner, Markus, et al. "Transcriptome-wide identification of RNA-binding protein and microRNA target sites by PAR-CLIP." \newblock{\em Cell} 141.1 (2010): 129-141.
-
-\bibitem[2]{ref2}
-Pan, Xiaoyong, et al. "Prediction of RNA-protein sequence and structure binding preferences using deep convolutional and recurrent neural networks." \newblock{\em BMC genomics} 19.1 (2018): 511.
-
-\bibitem[3]{ref3}
-Alipanahi, Babak, et al. "Predicting the sequence specificities of DNA-and RNA-binding proteins by deep learning." \newblock{\em Nature biotechnology} 33.8 (2015): 831-838.
-
-\bibitem[4]{ref4}
-Ando, Shin, and Chun Yuan Huang. "Deep over-sampling framework for classifying imbalanced data." \newblock{\em Joint European Conference on Machine Learning and Knowledge Discovery in Databases}. Springer, Cham, 2017.
-
-\bibitem[5]{ref5}
-Anders G. et al.  "doRiNA: a database of RNA interactions in post-transcriptional regulation." \newblock{\em Nucleic Acids Res.}, 40, D180–D186, 2012.
-
-\bibitem[6]{ref6}
-Corrado G. et al.  "RNAcommender: genome-wide recommendation of RNA–protein interactions." \newblock{\em Bioinformatics}, 32, 3627–3634, 2016.
-
-\bibitem[7]{ref7}
-Castello A. et al. "Insights into RNA biology from an atlas of mammalian mRNA-binding proteins." \newblock{\em Cell}, 149, 1393–1406, 2012.
-
-\bibitem[8]{ref8}
-Gerstberger S. et al.  "A census of human RNA-binding proteins." \newblock{\em Nat. Rev. Genet.}, 15, 829–845, 2014.
-
-\bibitem[9]{ref9}
-Dictenberg J.B. et al. "A direct role for FMRP in activity-dependent dendritic mRNA transport links filopodial-spine morphogenesis to fragile X syndrome." \newblock{\em Dev. Cell}, 14, 926–939, 2008.
-
-\end{thebibliography}
-
 %----------------------------------------------------------------------------------------
 
 \end{document}
