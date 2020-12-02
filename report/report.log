@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.12.1)  2 DEC 2020 11:39
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.12.1)  2 DEC 2020 11:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -455,51 +455,107 @@ File: se-ascii-print.def 2019/11/29 v1.12 stringenc: Printable ASCII characters
 Package microtype Info: Character `029' is missing
 (microtype)             in font `T1/pplx/m/sc/10'.
 (microtype)             Ignoring protrusion settings for this character.
-Package lettrine.sty Info: Targeted height = 30.07506pt
+Package lettrine.sty Info: Targeted height = 31.27513pt
 (lettrine.sty)             (for loversize=0, accent excluded),
-(lettrine.sty)             Lettrine height = 30.07518pt (R);
+(lettrine.sty)             Lettrine height = 31.27525pt (R);
 (lettrine.sty)             reported on input line 103.
-LaTeX Font Info:    Trying to load font information for TS1+pplx on input line 120.
- (c:/texlive/2020/texmf-dist/tex/latex/psnfss/ts1pplx.fd
-File: ts1pplx.fd 2004/09/06 font definitions for TS1/pplx.
-) [1
 
-
-]
-
-LaTeX Warning: Citation `Figueredo:2009dg' on page 2 undefined on input line 167.
-
-[2]
-Underfull \hbox (badness 2486) in paragraph at lines 181--185
-[]\T1/pplx/m/n/10 Figueredo, A. J.
+Underfull \hbox (badness 1540) in paragraph at lines 103--109
+\T1/pplx/m/n/10 in-tro-duced by Castello et al., 2012,
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 190.
-[3
+
+Underfull \hbox (badness 1424) in paragraph at lines 122--123
+\T1/pplx/m/n/10 from ex-per-i-ments, we can use tra-di-tional
+ []
+
+
+Underfull \hbox (badness 1983) in paragraph at lines 122--123
+\T1/pplx/m/n/10 nolo-gies are time-intensive and ex-pen-sive
+ []
+
+[1
+
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 190.
+LaTeX Font Info:    Trying to load font information for TS1+pplx on input line 130.
+ (c:/texlive/2020/texmf-dist/tex/latex/psnfss/ts1pplx.fd
+File: ts1pplx.fd 2004/09/06 font definitions for TS1/pplx.
+)
+Underfull \hbox (badness 2443) in paragraph at lines 138--139
+[]\T1/pplx/m/n/10 Data pre-pro-cess-ing: We down-loaded
+ []
+
+
+Underfull \hbox (badness 7869) in paragraph at lines 138--139
+\T1/pplx/m/n/10 the RBP-24 dataset from the web-
+ []
+
+
+Underfull \hbox (badness 2103) in paragraph at lines 138--139
+\T1/pplx/m/n/10 freiburg.de/Software/GraphProt[]. The
+ []
+
+
+Underfull \hbox (badness 1742) in paragraph at lines 142--143
+\T1/pplx/m/n/10 quence into fixed length sub-se-quence
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [2]
+
+LaTeX Warning: Citation `Figueredo:2009dg' on page 3 undefined on input line 163.
+
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 183--184
+[]\T1/pplx/m/n/10 Alipanahi,
+ []
+
+
+Underfull \hbox (badness 2521) in paragraph at lines 183--184
+\T1/pplx/m/n/10 pro-teins by deep learn-ing."  \T1/pplx/m/it/10 Na-ture
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 186--187
+[]\T1/pplx/m/n/10 Ando, Shin,
+ []
+
+
+Underfull \hbox (badness 1953) in paragraph at lines 186--187
+\T1/pplx/m/n/10 and Chun Yuan Huang. "Deep over-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 186--187
+\T1/pplx/m/n/10 sampling frame-work for clas-si-fy-ing
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 192.
+[4
+
+]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 192.
  (./report.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 190.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 190.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 192.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 192.
 Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: B2F66E1DCFAF436D314332492AE59207;508.
 
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 190.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 192.
  ) 
 Here is how much of TeX's memory you used:
- 13069 strings out of 479418
- 198783 string characters out of 5888105
- 500356 words of memory out of 5000000
- 30419 multiletter control sequences out of 15000+600000
- 576906 words of font info for 83 fonts, out of 8000000 for 9000
+ 13031 strings out of 479418
+ 198111 string characters out of 5888105
+ 500218 words of memory out of 5000000
+ 30381 multiletter control sequences out of 15000+600000
+ 566275 words of font info for 69 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 41i,10n,48p,252b,383s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,10n,48p,925b,454s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on report.pdf (3 pages).
+Output written on report.pdf (4 pages).

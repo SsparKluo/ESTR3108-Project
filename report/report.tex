@@ -25,7 +25,7 @@
 
 \usepackage[sc]{mathpazo} % Use the Palatino font
 \usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
-\linespread{1.05} % Line spacing - Palatino needs more space between lines
+\linespread{1.1} % Line spacing - Palatino needs more space between lines
 \usepackage{microtype} % Slightly tweak font spacing for aesthetics
 
 \usepackage[english]{babel} % Language hyphenation and typographical rules
@@ -53,7 +53,7 @@
 \pagestyle{fancy} % All pages have headers and footers
 \fancyhead{} % Blank out the default header
 \fancyfoot{} % Blank out the default footer
-\fancyhead[C]{Running title $\bullet$ May 2016 $\bullet$ Vol. XXI, No. 1} % Custom header text
+\fancyhead[C]{ESTR3108 - Project Report} % Custom header text
 \fancyfoot[RO,LE]{\thepage} % Custom footer text
 
 \usepackage{titling} % Customizing the title section
@@ -83,7 +83,7 @@
 \date{\today} % Leave empty to omit a date
 \renewcommand{\maketitlehookd}{%
 \begin{abstract}
-\noindent \blindtext % Dummy abstract text - replace \blindtext with your abstract text
+\noindent RNA Binding proteins(RBPs) are a class of proteins in eukaryotes and play important roles in many biological process, including gene splicing. Unfortunately, reseaches about RBPs, especially the binding preferences, are far from sufficient, so the prediction performance of traditional bioinfomatics algorithms is not satisfactory due to the deficiency of prior information. Thanks to the development of high-throughput technology, vast experiment results are generated in recent few years, providing the precondition of using data-driven approaching like machine learning and CNNs. In this report, we design a model which consists of two CNNs, train it for each RBPs in the dataset, test it performance and compare it with other similar solutions finally. We also discuss difference between our model and other solutions in both the structure and performance, and try to give some potential improvements. 
 \end{abstract}
 }
 
@@ -112,42 +112,38 @@ mutation of RBPs
 \section{Background}
     \subsection{RBPs}
     \subsection{CNN}
-
+    
+    CNN is a kind of supervised learning that use multiple convolutional layer to extract hidden feature from input data. CNN is widely used in image recognition and classification algorithm. A typical CNN consists of convolutional, pooling and full connected layers. Convolutional layers are used to extract features, pooling layers are used to decrease the dimensions of data and full connected layers can choose which features are more relative to which class.
+    
 \section{Methods}
 
-Maecenas sed ultricies felis. Sed imperdiet dictum arcu a egestas. 
-\begin{itemize}
-\item Donec dolor arcu, rutrum id molestie in, viverra sed diam
-\item Curabitur feugiat
-\item turpis sed auctor facilisis
-\item arcu eros accumsan lorem, at posuere mi diam sit amet tortor
-\item Fusce fermentum, mi sit amet euismod rutrum
-\item sem lorem molestie diam, iaculis aliquet sapien tortor non nisi
-\item Pellentesque bibendum pretium aliquet
-\end{itemize}
-\blindtext % Dummy text
+The key of our method is that a specific RBP can only recognize one class of RNA sequences which have similar subsequence in somewhere of the rna, called motif. Therefore, our goal is to recognize the similar subsequence, motif, from the given RNA sequence. 
 
-Text requiring further explanation\footnote{Example footnote}.
+One method is based on the experiment results. As long as we get some motifs from experiments, we can use traditional bioinfomatics tools like k-mers to calculate the similarity of input sequence and known motifs. However, the high-throughput technologies are time-intensive and expensive \cite{ref1}, and results are not satisfactory, so the number of accurately known motif is small compared to the real situation. And other drawback is that this method may not be able to make a accurate predicion if the corresponding motif havn't been found.
 
+The second method is to use data-driven approaching like machine learning. Our project is based on this method. In our method, we don't need the knowledge of motifs, and the network will try to find the features we need. CNN, as a powerful feature extracting tool, has potential to find similar structure from giving data, and make a more accurate prediction compared to the first method.
 %------------------------------------------------
 \section{Implementation}
 
-\section{Results}
+There are lots of reseaches showing that deep learning can perform much better than the previous method \cite{ref2}. There are several network has promising performance, including CNNs and LSTMs. In our project, we decide to use two kinds of CNNs, global CNN and local CNN, to make the prediction, and here are the implementation details:
+\begin{itemize}
+    \item Global CNNs: The purpose of this CNN is to extract useful feature from RNA sequence. In this CNN, we will feed the whole RNA sequence to the network, so that the network will find features no matter where the subsequence locate. Since the CNN can only receive fixed length input, we need to read and preprocess the data before training and test models(Details about the data preprocess can be found in the third points). 
+    
+    For the network, we set 2 convolutional layers, 2 pooling layers and 2 dense layers. The kernel size of the first layer is [10, 4], because as Deepbind suggested, the best kernel length is about 1.5 times of the average motifs' length which 7 \cite{ref3}. The kernel size of the second layer is [10, 1] due to the same reason.
 
-\begin{table}
-\caption{Example table}
-\centering
-\begin{tabular}{llr}
-\toprule
-\multicolumn{2}{c}{Name} \\
-\cmidrule(r){1-2}
-First name & Last Name & Grade \\
-\midrule
-John & Doe & $7.5$ \\
-Richard & Miles & $2$ \\
-\bottomrule
-\end{tabular}
-\end{table}
+    \item Local CNNs: The purpose of the CNN is to find the relationship of consecutive features. In this network, we will feed the multi-channel tensor to the network, so that the relationship between different channel can make difference. Since the raw data contain only one channel, we also need to do the preprocessing.
+    
+    For this network, we set 3 convolutional layers, 3 pooling layer and 2 dense layers. This networks is more complicated because the dimensions of input data are greater, and the complexity of data is higher. 
+
+    \item Data preprocessing: We downloaded the RBP-24 dataset from the website of GraphProt \href{http://www.bioinf.uni-freiburg.de/Software/GraphProt}{http://www.bioinf.uni-freiburg.de/Software/GraphProt}. The origin data type in this dataset is nucleotide sequence. In order to feed the data to CNNs, we need to transform the string into one-hot tensor. After transforming, every sequence can be seen as a graph with width of 4. 
+    
+    For global CNNs, we will find the max sequence length among data of each RBPs, and then padding the rest to that length by adding [[0.25],[0.25],[0.25],[0.25]] to the tail of each one-hot matrix.
+
+    For local CNNs, we will divide the sequence into fixed length subsequence with fixed shifting length, and then append the later subsequence to the channel of previous subsequence, until the channels are full or there is no subsequence left. In our project, the window size has been set to 101, shifting size is 20 and the channel size is 7.
+
+    \item Other details: Due to the limitation of experiments, the number of positive data and negative data is unbalanced. In order to ensure the balance between positive input and negative input, we use over-sampling strategy, which means the sample in the small size class can be used much more times. This method can significantly increase the training efficient \cite{ref4}.
+\end{itemize}
+\section{Results}
 
 \blindtext % Dummy text
 
@@ -177,12 +173,18 @@ A statement requiring citation \cite{Figueredo:2009dg}.
 
 \begin{thebibliography}{99} % Bibliography - this is intentionally simple in this template
 
-\bibitem[Figueredo and Wolf, 2009]{Figueredo:2009dg}
-Figueredo, A.~J. and Wolf, P. S.~A. (2009).
-\newblock Assortative pairing and life history strategy - a cross-cultural
-  study.
-\newblock {\em Human Nature}, 20:317--330.
- 
+\bibitem[Hafner, Markus, et al, 2009]{ref1}
+Hafner, Markus, et al. "Transcriptome-wide identification of RNA-binding protein and microRNA target sites by PAR-CLIP." \newblock{\em Cell} 141.1 (2010): 129-141.
+
+\bibitem[Pan, Xiaoyong, et al, 2018]{ref2}
+Pan, Xiaoyong, et al. "Prediction of RNA-protein sequence and structure binding preferences using deep convolutional and recurrent neural networks." \newblock{\em BMC genomics} 19.1 (2018): 511.
+
+\bibitem[Alipanahi, Babak, et al, 2015]{ref3}
+Alipanahi, Babak, et al. "Predicting the sequence specificities of DNA-and RNA-binding proteins by deep learning." \newblock{\em Nature biotechnology} 33.8 (2015): 831-838.
+
+\bibitem[Ando, Shin and Huang, 2017]{ref4}
+Ando, Shin, and Chun Yuan Huang. "Deep over-sampling framework for classifying imbalanced data." \newblock{\em Joint European Conference on Machine Learning and Knowledge Discovery in Databases}. Springer, Cham, 2017.
+
 \end{thebibliography}
 
 %----------------------------------------------------------------------------------------
