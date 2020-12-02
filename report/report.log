@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.4.30)  2 DEC 2020 12:16
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.4.30)  2 DEC 2020 15:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -482,8 +482,8 @@ LaTeX Font Info:    Trying to load font information for TS1+pplx on input line 1
 (c:/texlive/2020/texmf-dist/tex/latex/psnfss/ts1pplx.fd
 File: ts1pplx.fd 2004/09/06 font definitions for TS1/pplx.
 ) [2]
-Underfull \hbox (badness 2443) in paragraph at lines 136--137
-[]\T1/pplx/m/n/10 Data pre-pro-cess-ing: We down-loaded
+Underfull \hbox (badness 1648) in paragraph at lines 136--137
+[]\T1/pplx/b/n/10 Data pre-pro-cess-ing\T1/pplx/m/n/10 : We down-loaded
  []
 
 
@@ -502,58 +502,83 @@ Underfull \hbox (badness 1742) in paragraph at lines 140--141
  []
 
 
+Underfull \hbox (badness 1454) in paragraph at lines 144--145
+[]\T1/pplx/b/n/10 Other de-tails\T1/pplx/m/n/10 : Due to the lim-i-ta-tion
+ []
+
+
+Underfull \hbox (badness 2452) in paragraph at lines 144--145
+\T1/pplx/m/n/10 of ex-per-i-ments, the num-ber of pos-i-
+ []
+
+
+Underfull \hbox (badness 1226) in paragraph at lines 144--145
+\T1/pplx/m/n/10 tive data and neg-a-tive data is un-bal-
+ []
+
+
+Underfull \hbox (badness 1931) in paragraph at lines 144--145
+\T1/pplx/m/n/10 anced. In or-der to en-sure the bal-
+ []
+
+
+Underfull \hbox (badness 1337) in paragraph at lines 144--145
+\T1/pplx/m/n/10 egy, which means the sam-ple in the
+ []
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [3]
+Underfull \hbox (badness 1436) in paragraph at lines 168--169
+\T1/pplx/m/n/10 tech-nol-ogy is an ex-pen-sive and time-
+ []
 
-LaTeX Warning: Citation `Figueredo:2009dg' on page 4 undefined on input line 163.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 183--184
+Underfull \hbox (badness 10000) in paragraph at lines 188--189
 []\T1/pplx/m/n/10 Alipanahi,
  []
 
 
-Underfull \hbox (badness 2521) in paragraph at lines 183--184
+Underfull \hbox (badness 2521) in paragraph at lines 188--189
 \T1/pplx/m/n/10 pro-teins by deep learn-ing."  \T1/pplx/m/it/10 Na-ture
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 186--187
+Underfull \hbox (badness 10000) in paragraph at lines 191--192
 []\T1/pplx/m/n/10 Ando, Shin,
  []
 
 
-Underfull \hbox (badness 1953) in paragraph at lines 186--187
+Underfull \hbox (badness 1953) in paragraph at lines 191--192
 \T1/pplx/m/n/10 and Chun Yuan Huang. "Deep over-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 186--187
+Underfull \hbox (badness 10000) in paragraph at lines 191--192
 \T1/pplx/m/n/10 sampling frame-work for clas-si-fy-ing
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 192.
 [4]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 192.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 197.
+ [5
+
+]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 197.
  (./report.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 192.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 192.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 197.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 197.
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: B2F66E1DCFAF436D314332492AE59207;508.
-
-
-LaTeX Warning: There were undefined references.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 192.
+(rerunfilecheck)             Checksum: 77EE50CD143431220F382C9B4BEC4D18;560.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 197.
  ) 
 Here is how much of TeX's memory you used:
- 13031 strings out of 479418
- 198111 string characters out of 5888105
+ 13033 strings out of 479418
+ 198150 string characters out of 5888105
  500166 words of memory out of 5000000
- 30381 multiletter control sequences out of 15000+600000
- 566275 words of font info for 69 fonts, out of 8000000 for 9000
+ 30383 multiletter control sequences out of 15000+600000
+ 567410 words of font info for 70 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 41i,10n,48p,925b,454s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,10n,48p,925b,458s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on report.pdf (4 pages).
+Output written on report.pdf (5 pages).
