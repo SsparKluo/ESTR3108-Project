@@ -6,28 +6,30 @@ import os
 import sys
 import random
 
+data_name = sys.argv[1]
+
 max_len = 0
 filter_no = 30
 
 def next_batch(size, X, y):
-    index_neg = []
-    index_pos = []
-    for i in range(0, len(y)):
-        if y[i][0] == 0:
-            index_neg.append(i)
-        else:
-            index_pos.append(i)
+	index_neg = []
+	index_pos = []
+	for i in range(0, len(y)):
+		if y[i][0] == 0:
+			index_neg.append(i)
+		else:
+			index_pos.append(i)
 
-    np.random.shuffle(index_pos)
-    np.random.shuffle(index_neg)
+	np.random.shuffle(index_pos)
+	np.random.shuffle(index_neg)
 
-    index = index_neg[:int(size * 0.5)] + index_pos[:int(size * 0.5)]
-    np.random.shuffle(index)
+	index = index_neg[:int(size * 0.5)] + index_pos[:int(size * 0.5)]
+	np.random.shuffle(index)
 
-    batch_X = np.array([X[i] for i in index])
-    batch_y = np.array([y[i] for i in index])
-    
-    return batch_X, batch_y
+	batch_X = np.array([X[i] for i in index])
+	batch_y = np.array([y[i] for i in index])
+	
+	return batch_X, batch_y
 
 def wv(shape):
 	init = tf.truncated_normal(shape, stddev = 0.1)
@@ -41,18 +43,18 @@ def conv2d(x, W):
 	return tf.nn.conv2d(x, W, strides = [1, 1, 1, 1], padding = 'SAME')
 
 def max_pool_2x2(x):
-    return tf.nn.max_pool(x, ksize = [1, 1, 3, 1], strides = [1, 1, 1, 1], padding = 'SAME')
+	return tf.nn.max_pool(x, ksize = [1, 1, 3, 1], strides = [1, 1, 1, 1], padding = 'SAME')
 
 
-train_X, train_y, max_len0 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.train.positives.fa", nega = "data\\ALKBH5_Baltz2012.train.negatives.fa", channel = 1 )
-test_X, test_y, max_len1 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.ls.positives.fa", nega = "data\\ALKBH5_Baltz2012.ls.negatives.fa", channel = 1)
+train_X, train_y, max_len0 = data_process.get_data(posi = "data\\" + data_name + ".train.positives.fa", nega = "data\\" + data_name + ".train.negatives.fa", channel = 1 )
+test_X, test_y, max_len1 = data_process.get_data(posi = "data\\" + data_name + ".ls.positives.fa", nega = "data\\" + data_name + ".ls.negatives.fa", channel = 1)
 
 if max_len0 > max_len1:
 	max_len = max_len0 + 6
-	test_X, test_y, max_len1 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.ls.positives.fa", nega = "data\\ALKBH5_Baltz2012.ls.negatives.fa", channel = 1, max_len = max_len0)
+	test_X, test_y, max_len1 = data_process.get_data(posi = "data\\" + data_name + ".ls.positives.fa", nega = "data\\" + data_name + ".ls.negatives.fa", channel = 1, max_len = max_len0)
 else:
 	max_len = max_len1 + 6
-	train_X, train_y, max_len0 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.train.positives.fa", nega = "data\\ALKBH5_Baltz2012.train.negatives.fa", channel = 1, max_len = max_len1)
+	train_X, train_y, max_len0 = data_process.get_data(posi = "data\\" + data_name + ".train.positives.fa", nega = "data\\" + data_name + ".train.negatives.fa", channel = 1, max_len = max_len1)
 
 sess = tf.InteractiveSession()
 
@@ -105,27 +107,36 @@ correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 sess.run(tf.global_variables_initializer())
 
+print(train_y.size)
 
-for i in range(600):
+train_time = train_y.size // 8
+stop_count = 0
+
+for i in range(train_time):
 	batch_seq, batch_label = next_batch(256, train_X, train_y)
 	# print(np.array(batch_seq).shape)
 	# print(np.array(batch_label).shape)
 	# print(batch_label)
 	if i % 10 == 0:
 		train_accuracy = accuracy.eval(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 1.0})
+		if (train_accuracy > 0.999):
+			stop_count = stop_count + 1
 		#y_out = y_conv.eval(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 1.0})
 		# h_pool1_out = h_pool1.eval(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 1.0})
 		# h_p_c = h_pool_concat.eval(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 1.0})
 		# print(y_out)
 		# print(h_pool1_out)
 		# print(h_p_c)
-		print("step %d, training accuracy %g" % (i, train_accuracy))
+		print("step %d / %d, training accuracy %g" % (i, train_time, train_accuracy))
 		print("test accuracy %g" % accuracy.eval(feed_dict = {x: test_X, y: test_y, keep_prob: 1.0}))
 	train_step.run(feed_dict = {x: batch_seq, y: batch_label, keep_prob: 0.75})
-
-saver = tf.train.Saver()
-saver.save(sess, './model_global/my_model', global_step = 1)
-
+	if (i % 500 == 0):
+		saver = tf.train.Saver()
+		saver.save(sess, './model_global_' + data_name + '/my_model', global_step = i // 100)
+	if (stop_count > (train_time // 300)):
+		saver = tf.train.Saver()
+		saver.save(sess, './model_global_' + data_name + '/my_model', global_step = i // 100)
+		break
 
 """
 print(np.array(train_X).shape)

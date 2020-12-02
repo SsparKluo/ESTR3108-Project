@@ -7,6 +7,10 @@ import os
 import sys
 import random
 
+name_list = ["CLIPSEQ_ELAVL1", "CLIPSEQ_SFRS1", "ICLIP_HNRNPC", "ICLIP_TDP43", "ICLIP_TIA1", "ICLIP_TIAL1", "PARCLIP_AGO1234", "PARCLIP_ELAVL1", "PARCLIP_ELAVL1A", "PARCLIP_EWSR1", "PARCLIP_FUS", "PARCLIP_HUR", "PARCLIP_IGF2BP123", "PARCLIP_MOV10_Sievers", "PARCLIP_PUM2", "PARCLIP_QKI", "PARCLIP_TAF15", "PTBv1", "ZC3H7B_Baltz2012"]
+
+data_name = sys.argv[1]
+
 def next_batch(size, X, y):
     index_neg = []
     index_pos = []
@@ -48,11 +52,11 @@ gl=tf.Graph()
 GLOBAL
 """   
 
-train_X, train_y, max_len0 = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.train.positives.fa", nega = "data\\ALKBH5_Baltz2012.train.negatives.fa", channel = 1 )
-test_X_g, test_y_g, max_len_g = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.ls.positives.fa", nega = "data\\ALKBH5_Baltz2012.ls.negatives.fa", channel = 1)
+train_X, train_y, max_len0 = data_process.get_data(posi = "data\\" + data_name + ".train.positives.fa", nega = "data\\" + data_name + ".train.negatives.fa", channel = 1 )
+test_X_g, test_y_g, max_len_g = data_process.get_data(posi = "data\\" + data_name + ".ls.positives.fa", nega = "data\\" + data_name + ".ls.negatives.fa", channel = 1)
 
 if max_len0 > max_len_g:
-    test_X_g, test_y_g, max_len_g = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.ls.positives.fa", nega = "data\\ALKBH5_Baltz2012.ls.negatives.fa", channel = 1, max_len = max_len0)
+    test_X_g, test_y_g, max_len_g = data_process.get_data(posi = "data\\" + data_name + ".ls.positives.fa", nega = "data\\" + data_name + ".ls.negatives.fa", channel = 1, max_len = max_len0)
     max_len_g = max_len0
 
 max_len_g += 6
@@ -115,11 +119,11 @@ with gl.as_default():
     y_l = tf.placeholder(tf.float32, shape = [None, 2])
     keep_prob_l = tf.placeholder(tf.float32)
 
-    W_conv1_l = wv([4, 4, 7, 28])
+    W_conv1_l = wv([10, 4, 7, 28])
     b_conv1_l = bv([28])
-    W_conv2_l = wv([5, 1, 28, 112])
+    W_conv2_l = wv([12, 1, 28, 112])
     b_conv2_l = bv([112])
-    W_conv3_l = wv([5, 1, 112, 224])
+    W_conv3_l = wv([38, 1, 112, 224])
     b_conv3_l = bv([224])
 
     x_seq_l = tf.reshape(x_l, [-1, max_len_l, 4, 7])
@@ -132,15 +136,15 @@ with gl.as_default():
     #h_pool2 = tf.reduce_max(h_conv2, [1, 2])
     h_pool2_l = max_pool_2x2(h_conv2_l)
 
-    h_conv3_l = tf.nn.relu(conv2d(h_pool2_l, W_conv3_l) + b_conv3_l)
+    #h_conv3_l = tf.nn.relu(conv2d(h_pool2_l, W_conv3_l) + b_conv3_l)
     #h_pool3 = tf.reduce_max(h_conv3, [1, 2])
-    h_pool3_l = max_pool_2x2(h_conv3_l)
+    #h_pool3_l = max_pool_2x2(h_conv3_l)
 
     #h_pool_concat = tf.concat([tf.reshape(h_pool1, [-1, filter_no]), tf.reshape(h_pool2, [-1, filter_no]), tf.reshape(h_pool3, [-1, filter_no])], 1)
-    h_pool_l = tf.reshape(h_pool3_l, [-1, 13 * 224])
+    h_pool_l = tf.reshape(h_pool2_l, [-1, 4 * max_len_l * 112])
     h_drop0_l = tf.nn.dropout(h_pool_l, keep_prob_l)
 
-    W_fc1_l = wv([13 * 224, 256])
+    W_fc1_l = wv([4 * max_len_l * 112, 256])
     b_fc1_l = bv([256])
     h_fc1_l = tf.nn.relu(tf.matmul(h_drop0_l, W_fc1_l) + b_fc1_l)
 
@@ -158,7 +162,7 @@ with gl.as_default():
 
 with tf.Session(graph=gg) as sess:
     saver_g = tf.train.Saver()
-    ckpt_g = tf.train.get_checkpoint_state('./model_global/')
+    ckpt_g = tf.train.get_checkpoint_state('./model_global_' + data_name + '/')
     if ckpt_g and ckpt_g.model_checkpoint_path:
         saver_g.restore(sess, ckpt_g.model_checkpoint_path)
     #sess.run(tf.initialize_all_variables())
@@ -168,11 +172,11 @@ with tf.Session(graph=gg) as sess:
     
 with tf.Session(graph=gl) as sess:
     saver_l = tf.train.Saver()
-    ckpt_l = tf.train.get_checkpoint_state('./model_multi/')
+    ckpt_l = tf.train.get_checkpoint_state('./model_multi_' + data_name + '/')
     if ckpt_l and ckpt_l.model_checkpoint_path:
         saver_l.restore(sess, ckpt_l.model_checkpoint_path)
     #sess.run(tf.initialize_all_variables())
-    test_X_l, test_y_l, temp = data_process.get_data(posi = "data\\ALKBH5_Baltz2012.ls.positives.fa", nega = "data\\ALKBH5_Baltz2012.ls.negatives.fa", channel = 7, window_size = 101)
+    test_X_l, test_y_l, temp = data_process.get_data(posi = "data\\" + data_name + ".ls.positives.fa", nega = "data\\" + data_name + ".ls.negatives.fa", channel = 7, window_size = 101)
     print(sess.run(accuracy_l, feed_dict = {x_l: test_X_l, y_l: test_y_l, keep_prob_l: 1.0}))
     out2 = sess.run(y_conv_l, feed_dict = {x_l: test_X_l, y_l: test_y_l, keep_prob_l: 1.0})
     

@@ -1,4 +1,5 @@
 __pycache__/data_io.cpython-35.pyc
 __pycache__/data_process.cpython-35.pyc
-lmodel/
-gmodel/
+model_multi/
+model_global/
+model_*/
