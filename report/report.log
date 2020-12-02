@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.4.30)  2 DEC 2020 10:15
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.4.30)  2 DEC 2020 12:16
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -502,51 +502,55 @@ Underfull \hbox (badness 1742) in paragraph at lines 140--141
  []
 
 
-LaTeX Warning: Citation `Figueredo:2009dg' on page 3 undefined on input line 161.
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 181--182
+ [3]
+
+LaTeX Warning: Citation `Figueredo:2009dg' on page 4 undefined on input line 163.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 183--184
 []\T1/pplx/m/n/10 Alipanahi,
  []
 
 
-Underfull \hbox (badness 2521) in paragraph at lines 181--182
+Underfull \hbox (badness 2521) in paragraph at lines 183--184
 \T1/pplx/m/n/10 pro-teins by deep learn-ing."  \T1/pplx/m/it/10 Na-ture
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 184--185
+Underfull \hbox (badness 10000) in paragraph at lines 186--187
 []\T1/pplx/m/n/10 Ando, Shin,
  []
 
 
-Underfull \hbox (badness 1953) in paragraph at lines 184--185
+Underfull \hbox (badness 1953) in paragraph at lines 186--187
 \T1/pplx/m/n/10 and Chun Yuan Huang. "Deep over-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 184--185
+Underfull \hbox (badness 10000) in paragraph at lines 186--187
 \T1/pplx/m/n/10 sampling frame-work for clas-si-fy-ing
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 190.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 192.
 [4]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 190.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 192.
  (./report.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 190.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 190.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 192.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 192.
 Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: B2F66E1DCFAF436D314332492AE59207;508.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 190.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 192.
  ) 
 Here is how much of TeX's memory you used:
  13031 strings out of 479418
  198111 string characters out of 5888105
- 501166 words of memory out of 5000000
+ 500166 words of memory out of 5000000
  30381 multiletter control sequences out of 15000+600000
  566275 words of font info for 69 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191

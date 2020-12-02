@@ -117,7 +117,7 @@
 
 The key of our method is that a specific RBP can only recognize one class of RNA sequences which have similar subsequence in somewhere of the rna, called motif. Therefore, our goal is to recognize the similar subsequence, motif, from the given RNA sequence. 
 
-One method is based on the experiment results. As long as we get some motifs from experiments, we can use traditional bioinfomatics tools like k-mers to calculate the similarity of input sequence and known motifs. However, the high-throughput technologies are time-intensive and expensive \cite{ref1}, and results are not satisfactory, so the number of accurately known motif is small compared to the real situation. And other drawback is that this method may not be able to make a accurate predicion if the corresponding motif havn't been found.
+One method is based on the experiment results. As long as we get some motifs from experiments, we can use traditional bioinfomatics tools like k-mers to calculate the similarity of input sequence and known motifs. However, the high-throughput technologies are time-intensive and expensive \cite{ref1}, and results are not satisfactory, so the number of accurately known motif is small compared to the real situation. And other drawback is that this method may not be able to make a accurate prediction if the corresponding motif havn't been found.
 
 The second method is to use data-driven approaching like machine learning. Our project is based on this method. In our method, we don't need the knowledge of motifs, and the network will try to find the features we need. CNN, as a powerful feature extracting tool, has potential to find similar structure from giving data, and make a more accurate prediction compared to the first method.
 %------------------------------------------------
@@ -138,6 +138,8 @@ There are lots of reseaches showing that deep learning can perform much better t
     For global CNNs, we will find the max sequence length among data of each RBPs, and then padding the rest to that length by adding [[0.25],[0.25],[0.25],[0.25]] to the tail of each one-hot matrix.
 
     For local CNNs, we will divide the sequence into fixed length subsequence with fixed shifting length, and then append the later subsequence to the channel of previous subsequence, until the channels are full or there is no subsequence left. In our project, the window size has been set to 101, shifting size is 20 and the channel size is 7.
+
+    \item Models ensembling: Model ensembling is common because it's hard to get a high performance predictor by using only one model. In our situation, we also meet this problem that the prediction is not accurate if we only use one of the CNN models, because both the sequence character and the features independence are important for binding. Therefore, we train those 2 CNN separately, and use both in the prediction phase, by just average the output probabilities(probabilities of positive and negative). In our experiment, this method can increase the accuracy.
 
     \item Other details: Due to the limitation of experiments, the number of positive data and negative data is unbalanced. In order to ensure the balance between positive input and negative input, we use over-sampling strategy, which means the sample in the small size class can be used much more times. This method can significantly increase the training efficient \cite{ref4}.
 \end{itemize}
