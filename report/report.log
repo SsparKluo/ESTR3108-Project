@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.4.30)  2 DEC 2020 05:34
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.4.30)  2 DEC 2020 10:15
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -460,7 +460,7 @@ Package lettrine.sty Info: Targeted height = 31.27513pt
 (lettrine.sty)             Lettrine height = 31.27525pt (L);
 (lettrine.sty)             reported on input line 103.
 
-Underfull \vbox (badness 3260) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -546,10 +546,10 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 190.
 Here is how much of TeX's memory you used:
  13031 strings out of 479418
  198111 string characters out of 5888105
- 500261 words of memory out of 5000000
+ 501166 words of memory out of 5000000
  30381 multiletter control sequences out of 15000+600000
  566275 words of font info for 69 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 41i,10n,48p,574b,454s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,10n,48p,925b,454s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on report.pdf (4 pages).
