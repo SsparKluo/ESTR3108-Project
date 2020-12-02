@@ -3,3 +3,8 @@ __pycache__/data_process.cpython-35.pyc
 model_multi/
 model_global/
 model_*/
+report/report.aux
+report/report.log
+report/report.pdf
+report/report.synctex.gz
+report/report.synctex(busy)

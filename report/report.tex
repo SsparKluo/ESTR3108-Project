@@ -190,7 +190,7 @@ parameters have been listed in secion IV.), thus the parameters may not be the o
 but we still gained satisfactory results.
 
 \subsection{Performance}
-As shown in Table 1, our method performs better than Pse-SVM in general,
+As shown in Table 2, our method performs better than Pse-SVM in general,
 and is close to other state-of-art methods. The main defect of our method
 appears in the first few datasets, including ALKBH5, C17ORF85, C22ORF28, etc.
 We've analyze these datasets, and found that these datasets are smaller than the
@@ -202,9 +202,20 @@ we have used may not be the optimal, our method have huge potential.
 
 \subsection{Local and global CNNs}
 Our method combines the local CNN and global CNN together. It's naturally to ask
-whether this combination is effective. As shown in Table 2, in most cases, the 
+whether this combination is effective. As shown in Table 1, in most cases, the 
 combination of two networks results in better performance of both independent
 network. 
+\begin{table}
+  \caption{Average performance of local and global CNN, and combination}
+  \centering
+  \begin{tabular}{c|c|c}
+    \toprule
+    local CNN & global CNN & combination \\
+    \midrule
+    0.852 & 0.847 & 0.871 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \begin{table*}
   \caption{performance of different methods across different datasets}
@@ -245,17 +256,6 @@ network.
   \end{table*}
   
 
-\begin{table}
-  \caption{Average performance of local and global CNN, and combination}
-  \centering
-  \begin{tabular}{c|c|c}
-    \toprule
-    local CNN & global CNN & combination \\
-    \midrule
-    0.852 & 0.847 & 0.871 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
 %------------------------------------------------
 
 \section{Discussion}

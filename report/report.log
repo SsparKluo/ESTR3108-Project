@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.12.1)  2 DEC 2020 16:35
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.12.1)  2 DEC 2020 16:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -427,8 +427,7 @@ File: l3backend-xdvipdfmx.def 2020-03-12 L3 backend support: xdvipdfmx
 \l__pdf_internal_box=\box60
 \g__pdf_backend_object_int=\count298
 \g__pdf_backend_annotation_int=\count299
-)
-No file report.aux.
+) (./report.aux)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 102.
@@ -441,7 +440,7 @@ LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 102.
 LaTeX Font Info:    ... okay on input line 102.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 102.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 102.
-(c:/texlive/2020/texmf-dist/tex/latex/base/ts1cmr.fd
+ (c:/texlive/2020/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 102.
@@ -517,16 +516,13 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 102.
 LaTeX Info: Redefining \pageref on input line 102.
 LaTeX Info: Redefining \nameref on input line 102.
+ (./report.out) (./report.out)
 \@outlinefile=\write3
 \openout3 = `report.out'.
 
-
-
-Package hyperref Warning: Rerun to get /PageLabels entry.
-
 Missing character: There is no – in font pplb9e!
 LaTeX Font Info:    Trying to load font information for OT1+pplx on input line 106.
-(c:/texlive/2020/texmf-dist/tex/latex/psnfss/ot1pplx.fd
+ (c:/texlive/2020/texmf-dist/tex/latex/psnfss/ot1pplx.fd
 File: ot1pplx.fd 2004/09/06 font definitions for OT1/pplx.
 )
 LaTeX Font Info:    Trying to load font information for OML+zplm on input line 106.
@@ -563,51 +559,30 @@ Package lettrine.sty Info: Targeted height = 31.27513pt
 (lettrine.sty)             Lettrine height = 31.27525pt (R);
 (lettrine.sty)             reported on input line 113.
 
-
-LaTeX Warning: Citation `ref5' on page 1 undefined on input line 116.
-
-
 Underfull \hbox (badness 3138) in paragraph at lines 113--122
 \T1/pplx/m/n/10 roles in many bi-o-log-i-cal pro-cesses.
  []
 
 
-LaTeX Warning: Citation `ref6' on page 1 undefined on input line 125.
-
-
 Underfull \vbox (badness 4543) has occurred while \output is active []
 
-
-
-LaTeX Warning: Citation `ref7' on page 1 undefined on input line 140.
-
-
-LaTeX Warning: Citation `ref8' on page 1 undefined on input line 142.
-
-
-LaTeX Warning: Citation `ref9' on page 1 undefined on input line 143.
-
-[1
+ [1
 
 
 ]
-
-LaTeX Warning: Citation `ref1' on page 2 undefined on input line 154.
-
-
-LaTeX Warning: Citation `ref2' on page 2 undefined on input line 160.
+Underfull \hbox (badness 1424) in paragraph at lines 154--155
+\T1/pplx/m/n/10 from ex-per-i-ments, we can use tra-di-tional
+ []
 
 
-Underfull \vbox (badness 2384) has occurred while \output is active []
+Underfull \hbox (badness 1983) in paragraph at lines 154--155
+\T1/pplx/m/n/10 nolo-gies are time-intensive and ex-pen-sive
+ []
 
 LaTeX Font Info:    Trying to load font information for TS1+pplx on input line 162.
- (c:/texlive/2020/texmf-dist/tex/latex/psnfss/ts1pplx.fd
+(c:/texlive/2020/texmf-dist/tex/latex/psnfss/ts1pplx.fd
 File: ts1pplx.fd 2004/09/06 font definitions for TS1/pplx.
 )
-
-LaTeX Warning: Citation `ref3' on page 2 undefined on input line 164.
-
-
 Underfull \hbox (badness 1648) in paragraph at lines 170--171
 []\T1/pplx/b/n/10 Data pre-pro-cess-ing\T1/pplx/m/n/10 : We down-loaded
  []
@@ -628,17 +603,34 @@ Underfull \hbox (badness 1742) in paragraph at lines 174--175
  []
 
 
-LaTeX Warning: Citation `ref4' on page 3 undefined on input line 178.
-
-
 Underfull \hbox (badness 1454) in paragraph at lines 178--179
 []\T1/pplx/b/n/10 Other de-tails\T1/pplx/m/n/10 : Due to the lim-i-ta-tion
  []
 
 
+Underfull \hbox (badness 2452) in paragraph at lines 178--179
+\T1/pplx/m/n/10 of ex-per-i-ments, the num-ber of pos-i-
+ []
+
+
+Underfull \hbox (badness 1226) in paragraph at lines 178--179
+\T1/pplx/m/n/10 tive data and neg-a-tive data is un-bal-
+ []
+
+
+Underfull \hbox (badness 1931) in paragraph at lines 178--179
+\T1/pplx/m/n/10 anced. In or-der to en-sure the bal-
+ []
+
+
+Underfull \hbox (badness 1337) in paragraph at lines 178--179
+\T1/pplx/m/n/10 egy, which means the sam-ple in the
+ []
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [3] [4]
+ [3]
 Underfull \hbox (badness 1436) in paragraph at lines 270--271
 \T1/pplx/m/n/10 tech-nol-ogy is an ex-pen-sive and time-
  []
@@ -653,7 +645,7 @@ Underfull \hbox (badness 2521) in paragraph at lines 290--291
 \T1/pplx/m/n/10 pro-teins by deep learn-ing."  \T1/pplx/m/it/10 Na-ture
  []
 
-
+[4] [5]
 Underfull \hbox (badness 10000) in paragraph at lines 293--294
 []\T1/pplx/m/n/10 Ando, Shin,
  []
@@ -668,7 +660,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 293--294
 \T1/pplx/m/n/10 sampling frame-work for clas-si-fy-ing
  []
 
-[5]
 Missing character: There is no – in font pplr9e!
 
 Underfull \hbox (badness 3439) in paragraph at lines 296--297
@@ -703,30 +694,17 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 314.
  (./report.aux)
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 314.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 314.
-
-
-Package rerunfilecheck Warning: File `report.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `report.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  7C164D163593D342C2ECCBEC9B629B04;760.
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
+Package rerunfilecheck Info: File `report.out' has not changed.
+(rerunfilecheck)             Checksum: 7C164D163593D342C2ECCBEC9B629B04;760.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 314.
  ) 
 Here is how much of TeX's memory you used:
- 14046 strings out of 479418
- 211932 string characters out of 5888105
- 529250 words of memory out of 5000000
- 31352 multiletter control sequences out of 15000+600000
+ 14056 strings out of 479418
+ 212033 string characters out of 5888105
+ 529703 words of memory out of 5000000
+ 31356 multiletter control sequences out of 15000+600000
  568879 words of font info for 71 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 41i,16n,48p,925b,463s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,16n,48p,925b,479s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on report.pdf (6 pages).
